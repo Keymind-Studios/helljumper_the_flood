@@ -39,7 +39,7 @@ function OnFrame()
     local align = "right"
     local bounds = {left = 0, top = 460, right = 632, bottom = 480}
     local textColor = {1.0, 0.45, 0.72, 1.0}
-    draw_text("helljumperFirefight-v-1.0.0", bounds.left, bounds.top, bounds.right, bounds.bottom, font, align,
+    draw_text("helljumperTheFlood-v-1.0.0", bounds.left, bounds.top, bounds.right, bounds.bottom, font, align,
               table.unpack(textColor))
 end
 
@@ -74,7 +74,7 @@ end
 local loaded = false
 
 function PluginLoad()
-    logger = balltze.logger.createLogger("Helljumper Firefight")
+    logger = balltze.logger.createLogger("Helljumper: The Flood")
     logger:muteDebug(not DebugMode)
 
     loadChimeraCompatibility()
