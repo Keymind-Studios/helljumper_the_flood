@@ -3,14 +3,14 @@ local balltze = Balltze
 local engine = Engine
 
 -- Gameplay Core Modules
-local dynamicCross = require "the_flood.gameplay_core.dynamicCross"
-local hudExtensions = require "the_flood.gameplay_core.hudExtensions"
-local healthRegen = require "the_flood.gameplay_core.healthRegen"
-local aimingDownSights = require "the_flood.gameplay_core.aimingDownSights"
-local playerPingObjectives = require "the_flood.gameplay_core.playerPingObjectives"
-local sprint = require "the_flood.gameplay_core.sprint"
-local weaponExtensions = require "the_flood.gameplay_core.weaponExtensions"
-local firefightManager = require "the_flood.firefight_modules.firefightManager"
+local dynamicCross = require "helljumper.gameplay_core.dynamicCross"
+local hudExtensions = require "helljumper.gameplay_core.hudExtensions"
+local healthRegen = require "helljumper.gameplay_core.healthRegen"
+local aimingDownSights = require "helljumper.gameplay_core.aimingDownSights"
+local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjectives"
+local sprint = require "hellhumper.gameplay_core.sprint"
+local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
+local firefightManager = require "helljumper.firefight_modules.firefightManager"
 
 dynamicCross.initializeSettings()
 
@@ -24,7 +24,7 @@ function OnTick()
     -- aimingDownSights.customKeys()
     playerPingObjectives.pingObjectives()
     --weaponExtensions.casterFixHeat()
-    firefightManager.eachTick()
+    --firefightManager.eachTick()
 end
 
 local onTickEvent = balltze.event.tick.subscribe(function(event)
@@ -47,7 +47,7 @@ end)
 
 return {
     unload = function()
-        logger:warning("Unloading main")
+        logger:warning("Unloading f10")
         onTickEvent:remove()
         onFrameEvent:remove()
         onRconMessageEvent:remove()
