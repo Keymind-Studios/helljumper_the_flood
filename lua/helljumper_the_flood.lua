@@ -102,7 +102,7 @@ function PluginLoad()
     end)
 
     local function main()
-        logger:info("Loading Plugin")
+        logger:info("Plugin Loaded")
     end
 
     balltze.event.mapLoad.subscribe(function(event)
@@ -112,10 +112,11 @@ function PluginLoad()
         end
     end)
 
-    main()
+    --main()
 
     return true
 end
 
 function PluginUnload()
+    --logger:info("Helljumper Plugin Unloaded")
 end
