@@ -1,6 +1,6 @@
 version: 1
 tag_space: 64M
-extend_limits: false
+extend_limits: true
 scenarios:
   - keymind/helljumper/levels/campaign/deployment_system/deployment_system
 commands:
