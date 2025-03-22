@@ -1,5 +1,5 @@
 -- Lua libraries
-local const = require "the_flood.constants"
+local const = require "helljumper.constants"
 local engine = Engine
 local blam = require "blam"
 

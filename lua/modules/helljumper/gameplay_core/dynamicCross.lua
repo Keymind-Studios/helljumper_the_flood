@@ -1,9 +1,3 @@
-------------------------------------------------------------------------------
--- Treason Dynamic Crosshairs Module
--- Mark Mc'Fuzz
--- This script is intended to provide dynamic crosshairs feature
-------------------------------------------------------------------------------
-
 local dynamicCross = {}
 
 ---------------------------------------DYNAMIC CROSSHAIR WEAPONS----------------------------------------------------------

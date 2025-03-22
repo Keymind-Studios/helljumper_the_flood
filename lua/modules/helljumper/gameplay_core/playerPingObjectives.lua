@@ -1,7 +1,7 @@
 -- Lua libraries
-local const = require "the_flood.constants"
-local core = require "the_flood.core"
-local network = require "the_flood.network"
+local const = require "helljumper.constants"
+local core = require "helljumper.core"
+local network = require "helljumper.network"
 local engine = Engine
 local balltze = Balltze
 local blam = require "blam"
