@@ -1,6 +1,7 @@
 DebugMode = true
 local balltze = Balltze
 local engine = Engine
+local blam = require "blam"
 
 -- Gameplay Core Modules
 local dynamicCross = require "helljumper.gameplay_core.dynamicCross"
