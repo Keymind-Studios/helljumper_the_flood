@@ -11,7 +11,8 @@ objectClasses = blam.objectClasses
 
 --local main
 local loadWhenIn = {
-    "f10_division_105"
+    "f10_division_105",
+    "deployment_system"
 }
 
 loadWhenIn = table.extend(loadWhenIn, table.map(loadWhenIn, function(map)
