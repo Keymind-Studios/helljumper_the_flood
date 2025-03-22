@@ -3,7 +3,7 @@ local balltze = Balltze
 
 local core = {}
 
-local const = require "the_flood.constants"
+local const = require "helljumper.constants"
 
 ---@class vector3D
 ---@field x number
