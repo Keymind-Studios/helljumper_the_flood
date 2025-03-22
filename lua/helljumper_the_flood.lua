@@ -80,6 +80,7 @@ function PluginLoad()
 
     loadChimeraCompatibility()
 
+    --Load lua file in "levels" folder with the same name of a map that has been opened in game
     balltze.event.tick.subscribe(function(event)
         if event.time == "before" then
             script.dispatch()
@@ -87,7 +88,7 @@ function PluginLoad()
                     local serverType = engine.netgame.getServerType()
                     if serverType == "local" or serverType == "none" then
                         local mapName = engine.map.getCurrentMapHeader().name
-                        local levelName = mapName:split("_")[1]
+                        local levelName = mapName:split("_dev")[1]
                         local ok, result = pcall(require, "levels." .. levelName)
                         if not ok then
                             logger:warning("Error loading level script: {}", result)
@@ -101,7 +102,7 @@ function PluginLoad()
     end)
 
     local function main()
-        logger:info("Loading main")
+        logger:info("Loading Plugin")
     end
 
     balltze.event.mapLoad.subscribe(function(event)
