@@ -58,6 +58,7 @@ tags/*
 data/*
 six-shooter.ini
 hek/
+maps/
 *_sync.hsc
 
 # Cloud files
