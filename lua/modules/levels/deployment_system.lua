@@ -8,7 +8,7 @@ local hudExtensions = require "helljumper.gameplay_core.hudExtensions"
 local healthRegen = require "helljumper.gameplay_core.healthRegen"
 local aimingDownSights = require "helljumper.gameplay_core.aimingDownSights"
 local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjectives"
-local sprint = require "hellhumper.gameplay_core.sprint"
+local sprint = require "helljumper.gameplay_core.playerSprint"
 local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
 local deploymentTest = require "helljumper.witch_system.deploymentTest"
 
@@ -24,7 +24,7 @@ function OnTick()
     -- aimingDownSights.customKeys()
     playerPingObjectives.pingObjectives()
     --weaponExtensions.casterFixHeat()
-    deploymentTest.eachTick()
+    --deploymentTest.eachTick()
 end
 
 local onTickEvent = balltze.event.tick.subscribe(function(event)
@@ -47,7 +47,6 @@ end)
 
 return {
     unload = function()
-        logger:warning("Unloading f10")
         onTickEvent:remove()
         onFrameEvent:remove()
         onRconMessageEvent:remove()
