@@ -25,7 +25,7 @@ function OnTick()
     -- aimingDownSights.customKeys()
     playerPingObjectives.pingObjectives()
     --weaponExtensions.casterFixHeat()
-    --deploymentTest.eachTick()
+    deploymentTest.eachTick()
 end
 
 local onTickEvent = balltze.event.tick.subscribe(function(event)

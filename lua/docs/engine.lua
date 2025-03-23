@@ -333,6 +333,8 @@ function Engine.tag.getTag(tagHandleOrPath, tagClass) end
 ---Return a tag entry list given a keyword and/or a tag class
 ---
 ---Leave the keyword empty to get all tags, if tag class is nil, it will return all tags
+---@param keyword string @Keyword to search for
+---@param tagClass? EngineTagClass Class of the tag
 ---@overload fun(keyword: string): MetaEngineTag[]
 ---@overload fun(keyword: string, tagClass: EngineTagClassActor): MetaEngineActorTag[]
 ---@overload fun(keyword: string, tagClass: EngineTagClassActorVariant): MetaEngineActorVariantTag[]
