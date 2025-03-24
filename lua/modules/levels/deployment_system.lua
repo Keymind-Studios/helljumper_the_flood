@@ -1,6 +1,9 @@
-DebugMode = true
 local balltze = Balltze
 local engine = Engine
+DebugMode = true
+package.preload["luna"] = nil
+package.loaded["luna"] = nil
+require "luna"
 local blam = require "blam"
 
 -- Gameplay Core Modules

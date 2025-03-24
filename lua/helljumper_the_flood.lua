@@ -1,3 +1,4 @@
+DebugMode = true
 local balltze = Balltze
 local engine = Engine
 package.preload["luna"] = nil
@@ -77,6 +78,7 @@ local loaded = false
 function PluginLoad()
     logger = balltze.logger.createLogger("Helljumper: The Flood")
     logger:muteDebug(not DebugMode)
+    logger:muteIngame(not DebugMode)
 
     loadChimeraCompatibility()
 
