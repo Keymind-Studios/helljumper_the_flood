@@ -1,3 +1,5 @@
+local blam = require "blam"
+
 -- Lua libraries
 local const = require "helljumper.constants"
 
