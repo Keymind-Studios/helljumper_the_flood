@@ -14,7 +14,7 @@ local rucksack_table = {
     },
     equipment2 = { -- Table
         explosive_knife = 1,
-        bouble_shield = 1,
+        bubble_shield = 1,
         ma38_ammo = 250
     }
 }
