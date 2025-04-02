@@ -7,9 +7,10 @@ local getObject = Engine.gameState.getObject
 local getPlayer = Engine.gameState.getPlayer
 local json = require "helljumper.witch_system.jsonBuilder"
 
-local weaponExtensions = {}
+local weapAmmoStateLoader = {}
 
-function weaponExtensions.casterFixHeat()
+
+function weapAmmoStateLoader.assignAmmo()
     --for playerIndex = 0,15 do
         local player = getPlayer()
         if player then
@@ -18,11 +19,13 @@ function weaponExtensions.casterFixHeat()
                 for weaponIndex = 1,4 do
                     Weapon = getObject(biped.weapons[weaponIndex], engine.tag.objectType.weapon)
                     if Weapon then
-                        --if weaponIndex == 1 then
-                        --Weapon.magazines[1].roundsLoaded = 30
-                        --Weapon.magazines[1].roundsUnloaded = 72
-                        logger:debug("Weapon: {} Ammo: {} ReserveAmmo: {}", weaponIndex, Weapon.magazines[1].roundsLoaded, Weapon.magazines[1].roundsUnloaded)
-                        --end
+                        if weaponIndex == 1 then
+                        Weapon.magazines[1].roundsLoaded = 30
+                        Weapon.magazines[1].roundsUnloaded = 72
+                        --else
+                        --    logger:warning("Error, doesnt weapon exist: {}", weaponIndex)
+                            --logger:debug("Weapon: {} Ammo: {} ReserveAmmo: {}", weaponIndex, Weapon.magazines[1].roundsLoaded, Weapon.magazines[1].roundsUnloaded)
+                        end
                     end
                 end
             end
@@ -48,4 +51,4 @@ local file_name = "weaponAmmoState" -- Nombre que tendrá el archivo (sin la ext
 
 
 
-return weaponExtensions
+return weapAmmoStateLoader

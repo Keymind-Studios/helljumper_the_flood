@@ -12,23 +12,31 @@ local hudExtensions = require "helljumper.gameplay_core.hudExtensions"
 local healthRegen = require "helljumper.gameplay_core.healthRegen"
 local aimingDownSights = require "helljumper.gameplay_core.aimingDownSights"
 local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjectives"
-local sprint = require "helljumper.gameplay_core.playerSprint"
+-- local sprint = require "helljumper.gameplay_core.playerSprint"
 local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
 local deploymentTest = require "helljumper.witch_system.deploymentTest"
+local weaponAmmoLoader = require "helljumper.witch_system.weapAmmoStateLoader"
 
 dynamicCross.initializeSettings()
 
+-- local onMapLoadEvent
+
 -- Functions OnTick
 function OnTick()
-    dynamicCross.dynamicReticles()
+    -- dynamicCross.dynamicReticles()
     hudExtensions.radarHideOnZoom()
     hudExtensions.hudBlurOnLowHealth()
     hudExtensions.changeGreandeSound()
     healthRegen.regenerateHealth()
     -- aimingDownSights.customKeys()
     playerPingObjectives.pingObjectives()
-    --weaponExtensions.casterFixHeat()
-    deploymentTest.eachTick()
+    -- weaponExtensions.casterFixHeat()
+    -- deploymentTest.eachTick()
+    -- weaponAmmoLoader.assignAmmo()
+end
+
+function OnMapLoad()
+    -- weaponAmmoLoader.assignAmmo()
 end
 
 local onTickEvent = balltze.event.tick.subscribe(function(event)

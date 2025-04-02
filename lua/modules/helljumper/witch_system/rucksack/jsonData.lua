@@ -1,6 +1,7 @@
 local rucksack = require "lua.modules.helljumper.witch_system.rucksack.rucksack"
 local json = require "lua.modules.helljumper.witch_system.jsonBuilder"
 
+
 local rucksack_table = {
     isActive = true, -- Boolean
     profile = "Mark McFuzz", -- String
