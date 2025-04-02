@@ -114,13 +114,13 @@ constants.weaponHudInterfaces = {
     ma38HudTag = blam.findTag("assault_rifle_ma38", tagClasses.weaponHudInterface)
 }
 
-function constants.get()
-    local fontName = "geogrotesque-regular-"
-    constants.fonts = {
-        text = findTag(fontName .. "text", tagClasses.font),
-        title = findTag(fontName .. "title", tagClasses.font),
-        subtitle = findTag(fontName .. "subtitle", tagClasses.font)
-    }
-end
+local fontName = "nexa-bold-"
+constants.fonts = {
+    text = findTag(fontName .. "text", tagClasses.font),
+    title = findTag(fontName .. "title", tagClasses.font),
+    subtitle = findTag(fontName .. "subtitle", tagClasses.font),
+    button = findTag(fontName .. "button", tagClasses.font),
+    shadow = findTag(fontName .. "shadow", tagClasses.font)
+}
 
 return constants

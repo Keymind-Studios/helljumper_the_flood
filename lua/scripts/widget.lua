@@ -313,8 +313,8 @@ end
 ---@return string
 function widget.color(color, name)
     local colorDecimal = tonumber(color:sub(2), 16) or 0
-    local bitmapPath = "insurrection/ui/bitmaps/color_" .. (name or colorDecimal)
-    local imagePath = "data/insurrection/ui/bitmaps/color_" .. (name or colorDecimal) .. ".png"
+    local bitmapPath = "helljumper/ui/bitmaps/color_" .. (name or colorDecimal)
+    local imagePath = "data/helljumper/ui/bitmaps/color_" .. (name or colorDecimal) .. ".png"
 
     if not fs.is("tags/" .. bitmapPath .. ".bitmap") then
         -- Create bitmap from color using image magick, assume color is in hex

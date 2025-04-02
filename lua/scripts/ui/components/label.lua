@@ -1,6 +1,6 @@
 local constants = require "lua.scripts.ui.components.constants"
 local widget = require "lua.scripts.widget"
-local button = require "lua.scripts.ui.componentsV2.button"
+local button = require "lua.scripts.ui.components.button"
 local ustr = require "lua.scripts.modules.ustr"
 
 ---@class labelProps

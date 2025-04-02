@@ -23,7 +23,7 @@ dynamicCross.initializeSettings()
 
 -- Functions OnTick
 function OnTick()
-    -- dynamicCross.dynamicReticles()
+    dynamicCross.dynamicReticles()
     hudExtensions.radarHideOnZoom()
     hudExtensions.hudBlurOnLowHealth()
     hudExtensions.changeGreandeSound()

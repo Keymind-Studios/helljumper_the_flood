@@ -5,7 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@class headerProps
 ---@field name string
 ---@field title string
----@field subtitle string
+---@field subtitle? string
 
 ---@param props headerProps
 ---@return string

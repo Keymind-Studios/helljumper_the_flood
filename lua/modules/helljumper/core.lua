@@ -1,5 +1,7 @@
--- Lua libraries
 local balltze = Balltze
+local engine = Engine
+local blam = require "blam"
+
 
 local core = {}
 
@@ -61,6 +63,13 @@ function core.rotateObject(objectId, yaw, pitch, roll)
     object.v2Z = yawVector.z
 end
 
+--- Return the file name of a tag file path
+---@param tagPath string
+function core.getTagName(tagPath)
+    local tagSplit = tagPath:split "\\"
+    local tagName = tagSplit[#tagSplit]
+    return tagName
+end
 
 function core.secondsToTicks(seconds)
     return 30 * seconds
@@ -151,6 +160,44 @@ function core.calculateRaycast(player)
     -- to make it match view port camera position
     local rayZ = player.z + player.zVel + player.cameraZ * const.raycastOffset + 0.54
     return rayX, rayY, rayZ
+end
+
+---Get the current screen aspect ratio
+---@return number aspectWidth, number aspectHeight
+function core.getScreenAspectRatio()
+    local screenWidth, screenHeight = core.getScreenResolution()
+    log("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
+    -- Calculate the greatest common divisor (GCD) using Euclidean algorithm
+    local function gcd(a, b)
+        while b ~= 0 do
+            a, b = b, a % b
+        end
+        return a
+    end
+
+    -- Calculate the aspect ratio
+    local divisor = gcd(screenWidth, screenHeight)
+    local aspectWidth = screenWidth / divisor
+    local aspectHeight = screenHeight / divisor
+
+    -- Format the aspect ratio as a string
+    -- local aspectRatioString = string.format("%d:%d", aspectWidth, aspectHeight)
+
+    return aspectWidth, aspectHeight
+end
+
+---Attempt to connect a game server
+---@param host string
+---@param port number
+---@param password string
+function core.connectServer(host, port, password)
+    local command = "connect %s:%s \"%s\""
+    engine.hsc.executeScript(command:format(host, port, password))
+end
+
+function core.getMyGamesHaloCEPath()
+    local myGamesPath = read_string(0x00647830)
+    return myGamesPath
 end
 
 return core

@@ -26,7 +26,7 @@ return function(props)
     local wid = {
         --bounds = constants.getScreenBounds(),
         bounds = widget.bounds(-constants.screen.height, -constants.screen.width, constants.screen.height, constants.screen.width),
-        background_bitmap = [[insurrection/ui/bitmaps/background_transparent.bitmap]],
+        background_bitmap = [[keymind/helljumper/ui/bitmaps/background.bitmap]],
         flags = {pass_unhandled_events_to_focused_child = true},
         event_handlers = {
             {
@@ -48,13 +48,7 @@ return function(props)
     end
     if props.background then
         if props.background == "transparent" then
-            wid.background_bitmap = [[insurrection/ui/bitmaps/background_transparent.bitmap]]
-        elseif props.background == "solid" then
-            wid.background_bitmap = [[insurrection/ui/bitmaps/background_solid.bitmap]]
-        elseif props.background == "fade" then
-            wid.background_bitmap = [[insurrection/ui/bitmaps/background_transparent_fade.bitmap]]
-        elseif props.background == "dialog" then
-            wid.background_bitmap = [[insurrection/ui/bitmaps/dialog_menu_background.bitmap]]
+            wid.background_bitmap = [[keymind/helljumper/ui/bitmaps/background.bitmap]]
         end
     end
     if props.noBackgroud then

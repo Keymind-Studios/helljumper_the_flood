@@ -6,7 +6,7 @@ local bitmapTemplate = [[invader-bitmap -F 32-bit -T interface_bitmaps %s]]
 
 local nameplatesCollection = {tags = {}}
 fs.cd("data")
-for name, d in fs.dir([[insurrection/ui/bitmaps/icons]]) do
+for name, d in fs.dir([[helljumper/ui/bitmaps/icons]]) do
     if not name then
         print("error: ", d)
         break
