@@ -103,14 +103,15 @@ function PluginLoad()
             end
     end)
 
-    local function main()
-        logger:info("Plugin Loaded")
-    end
+    --local function main()
+    --    logger:info("Plugin Loaded")
+    --end
 
     balltze.event.mapLoad.subscribe(function(event)
         if event.time == "after" then
             server_type = engine.netgame.getServerType()
-            main()
+            -- weaponAmmoLoader.assignAmmo()
+            -- main()
         end
     end)
 
@@ -120,5 +121,4 @@ function PluginLoad()
 end
 
 function PluginUnload()
-    --logger:info("Helljumper Plugin Unloaded")
 end
