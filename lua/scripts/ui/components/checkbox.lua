@@ -1,5 +1,5 @@
 local widget = require "lua.scripts.widget"
-local button = require "lua.scripts.ui.componentsV3.button"
+local button = require "lua.scripts.ui.components.button"
 local constants = require "lua.scripts.ui.components.constants"
 
 ---@class checkboxProps

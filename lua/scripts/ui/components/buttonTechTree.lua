@@ -7,8 +7,15 @@ local floor = math.floor
 ---@class buttonTechTreeProps
 ---@field name string
 ---@field text? string
+---@field back? boolean
+---@field opens? string
+---@field script? string
+---@field branch? boolean
+---@field func? string | string[]
+---@field select? boolean
+---@field close? boolean
 ---@field justification? "left_justify" | "center_justify" | "right_justify"
----@field variant "simple" | "upgrade"
+---@field variant? "simple" | "upgrade" | "tab"
 ---@field childs? invaderWidgetChildWidget[]
 
 ---Generic table button for table usage
@@ -19,21 +26,19 @@ return function(props)
     local text = props.text
     local variant = props.variant or "simple"
     local justification = props.justification or "center_justify"
-    local widgetPath = widget.path .. "buttons/" .. name .. "_tech_tree_button.ui_widget_definition"
-    
-    local size = {
-        width = 246,
-        height = 216,
-        scale = 0.25
-    }
+    local childWidgets = props[1] or props.childs
+    local widgetPath = widget.path .. "buttons/" .. name .. "_button.ui_widget_definition"
+
+    local size = {width = 246, height = 216, scale = 0.244}
+    local sizeTab = {width = 177, height = 30, scale = 1}
 
     local stringsTagPath
     if text then
         -- Generate strings tag
-        stringsTagPath = widget.path .. "strings/" .. name .. "_tech_tree_button.unicode_string_list"
+        stringsTagPath = widget.path .. "strings/" .. name ..
+                             "_button.unicode_string_list"
         ustr(stringsTagPath, {text})
     end
-
 
     ---@type invaderWidget
     local wid = {
@@ -41,17 +46,62 @@ return function(props)
         bounds = widget.scale(size.width, size.height, size.scale),
         background_bitmap = [[keymind/helljumper/ui/bitmaps/tech_tree_simple_button.bitmap]],
         flags = {pass_unhandled_events_to_focused_child = true},
+        event_handlers = {
+            {
+                flags = {
+                    open_widget = props.opens ~= nil,
+                    run_function = props.func ~= nil,
+                    go_back_to_previous_widget = props.back or false,
+                    try_to_branch_on_failure = props.branch or false,
+                    close_all_widgets = props.close or false
+                },
+                event_type = "a_button",
+                widget_tag = props.opens,
+                script = props.script
+            }
+        },
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
-        text_font = constants.fonts.title,
+        text_font = constants.fonts.button,
         text_color = constants.color.text,
-        justification = justification,
-        horiz_offset = 292 + 27,
-        vert_offset = 98 + 10,
+        justification = props.justification or "left_justify",
+        horiz_offset = 10,
+        vert_offset = 10,
+        child_widgets = childWidgets or {}
     }
     if variant == "upgrade" then
         wid.background_bitmap = [[keymind/helljumper/ui/bitmaps/tech_tree_upgrade_button.bitmap]]
+        wid.text_font = constants.fonts.shadow
+        wid.text_color = constants.color.title
+    elseif variant == "tab" then
+        wid.background_bitmap = [[keymind/helljumper/ui/bitmaps/tech_tree_tab_button.bitmap]]
+        wid.bounds = widget.scale(sizeTab.width, sizeTab.height, sizeTab.scale)
+        wid.text_font = constants.fonts.title
     end
+
+    if props.func then
+        -- We want to run multiple functions on the same button
+        if type(props.func) == "table" then
+            -- Replace first function with the first function from props
+            wid.event_handlers[1]["function"] = props.func[1]
+            table.remove(props.func --[[@as table]] , 1)
+            for i, func in ipairs(props.func --[=[@as string[]]=] ) do
+                wid.event_handlers[#wid.event_handlers + 1] = {
+                    flags = {run_function = true},
+                    ["function"] = func,
+                    event_type = "a_button"
+                }
+            end
+        elseif type(props.func) == "string" then
+            wid.event_handlers[1]["function"] = props.func --[[@as string]]
+        end
+    end
+    -- Add mouse event handler
+    wid.event_handlers[#wid.event_handlers + 1] = {
+        flags = {run_function = true},
+        event_type = "left_mouse",
+        ["function"] = "mouse_emit_accept_event"
+    }
 
     widget.createV2(widgetPath, wid)
     return widgetPath

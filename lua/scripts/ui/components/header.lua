@@ -5,7 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@class headerProps
 ---@field name string
 ---@field title string
----@field subtitle? string
+---@field subtitle string
 
 ---@param props headerProps
 ---@return string
@@ -21,6 +21,8 @@ return function(props)
     ustr(stringsTagPath, {title, subtitle})
     local widgetPath = widget.path .. name .. [[_header.ui_widget_definition]]
 
+    local textColor = constants.color.text
+    
     -- Generate title
     widget.create(titlePath, {
         widget_type = "text_box",
@@ -40,6 +42,8 @@ return function(props)
         text_color = constants.color.subtitle,
         string_list_index = 1
     })
+
+
     widget.create(widgetPath, {
         bounds = "0, 0, 40, 450",
         child_widgets = {

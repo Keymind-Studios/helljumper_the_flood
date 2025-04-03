@@ -5,7 +5,7 @@ return {
     color = {
         text = "1, 1, 1, 1",
         title = "1, 1, 1, 1",
-        subtitle = "1, 0.301961, 0.454902, 0.623529",
+        subtitle = "1, 1, 0.756863, 0.027451",
         selected = "1, 0.55, 0.55, 0.55",
         nameplate = "1, 0.8, 0.8, 0.8",
         info = "1, 0.427451, 0.564706, 0.803922",
@@ -17,7 +17,8 @@ return {
             secondary = "#6d90cd",
             primaryHighlight = "#97b2e0",
             secondaryHighlight = "#2996ff",
-            contrast = "#273D50"
+            contrast = "#273D50",
+            barTechTree = "#b2b2b2"
         }
     },
     
@@ -26,7 +27,7 @@ return {
     fonts = {
         text = [[keymind/helljumper/ui/fonts/nexa-bold-text.font]], -- small
         title = [[keymind/helljumper/ui/fonts/nexa-bold-title.font]], -- ticker
-        subtitle = [[keymind/helljumper/ui/fonts/nexa-bold-subtitle.font]], -- gamespy/subtitle
+        subtitle = [[keymind/helljumper/ui/fonts/nexa-light-subtitle.font]], -- gamespy/subtitle
         button = [[keymind/helljumper/ui/fonts/nexa-bold-button.font]], -- large
         shadow = [[keymind/helljumper/ui/fonts/nexa-bold-shadow.font]]
     },

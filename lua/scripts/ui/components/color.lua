@@ -1,7 +1,7 @@
 local widget = require "lua.scripts.widget"
 local ustr = require "lua.scripts.modules.ustr"
 local constants = require "lua.scripts.ui.components.constants"
-local image = require "lua.scripts.ui.componentsV2.image"
+local image = require "lua.scripts.ui.components.image"
 local floor = math.floor
 
 ---@class colorProps
