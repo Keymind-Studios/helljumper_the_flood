@@ -6,9 +6,8 @@ package.loaded["luna"] = nil
 require "luna"
 local script = require "script"
 local blam = require "blam"
-tagClasses = blam.tagClasses
-objectClasses = blam.objectClasses
-
+local interface = require "helljumper.interface"
+--local constants = require "helljumper.constants"
 
 --local main
 local loadWhenIn = {
@@ -79,13 +78,15 @@ function PluginLoad()
     logger = balltze.logger.createLogger("Helljumper: The Flood")
     logger:muteDebug(not DebugMode)
     logger:muteIngame(not DebugMode)
-
     loadChimeraCompatibility()
 
     --Load lua file in "levels" folder with the same name of a map that has been opened in game
     balltze.event.tick.subscribe(function(event)
         if event.time == "before" then
             script.dispatch()
+            --balltze.features.setUIAspectRatio(16, 9)
+            interface.changeAspectRatio()
+            --balltze.chimera.create_font_override("NexaDemo-Bold", constants.fonts.subtitle, 13, 400, 2, 2, 0, 3)
             if not loaded then
                     local serverType = engine.netgame.getServerType()
                     if serverType == "local" or serverType == "none" then
