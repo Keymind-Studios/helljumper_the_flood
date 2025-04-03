@@ -46,7 +46,6 @@ local onTickEvent = balltze.event.tick.subscribe(function(event)
 end)
 local onFrameEvent = balltze.event.frame.subscribe(function(event)
     if event.time == "before" then
-        OnFrame()
     end
 end)
 local onRconMessageEvent = balltze.event.rconMessage.subscribe(function(event)
