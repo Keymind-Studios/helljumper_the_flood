@@ -21,7 +21,7 @@ return function(props)
     local value = {
         widget_type = "container",
         bounds = widget.bounds(0, 0, 3, size),
-        background_bitmap = [[insurrection/ui/bitmaps/solid_cobalt.bitmap]],
+        background_bitmap = [[keymind/helljumper/ui/bitmaps/solid_lightgray.bitmap]],
     }
     if orientation == "vertical" then
         value.bounds = widget.bounds(0, 0, size, 3)
@@ -33,7 +33,7 @@ return function(props)
     local bar = {
         widget_type = "container",
         bounds = widget.bounds(0, 0, type == "scroll" and 1 or 3, size),
-        background_bitmap = widget.color(constants.color.palette.contrast),
+        background_bitmap = [[keymind/helljumper/ui/bitmaps/color_11711154.bitmap]],--widget.color(constants.color.palette.barTechTree),
         child_widgets = {
             {
                 widget_tag = widgetValuePath,
