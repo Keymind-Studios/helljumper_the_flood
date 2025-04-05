@@ -29,7 +29,7 @@ return function(props)
     local childWidgets = props[1] or props.childs
     local widgetPath = widget.path .. "buttons/" .. name .. "_button.ui_widget_definition"
 
-    local size = {width = 246, height = 216, scale = 0.244}
+    local size = {width = 60, height = 53, scale = 1}
     local sizeTab = {width = 177, height = 30, scale = 1}
 
     local stringsTagPath
@@ -44,7 +44,7 @@ return function(props)
     local wid = {
         widget_type = "text_box",
         bounds = widget.scale(size.width, size.height, size.scale),
-        background_bitmap = [[keymind/helljumper/ui/bitmaps/tech_tree_simple_button.bitmap]],
+        background_bitmap = [[keymind/helljumper/ui/bitmaps/tech_tree_simple_button_25.bitmap]],
         flags = {pass_unhandled_events_to_focused_child = true},
         event_handlers = {
             {
@@ -70,7 +70,7 @@ return function(props)
         child_widgets = childWidgets or {}
     }
     if variant == "upgrade" then
-        wid.background_bitmap = [[keymind/helljumper/ui/bitmaps/tech_tree_upgrade_button.bitmap]]
+        wid.background_bitmap = [[keymind/helljumper/ui/bitmaps/tech_tree_upgrade_button_25.bitmap]]
         wid.text_font = constants.fonts.shadow
         wid.text_color = constants.color.title
     elseif variant == "tab" then
