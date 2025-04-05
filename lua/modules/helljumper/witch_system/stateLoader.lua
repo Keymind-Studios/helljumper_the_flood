@@ -2,12 +2,12 @@ local balltze = Balltze
 local engine = Engine
 local fs = balltze.filesystem
 
-local state = {}
+local stateloader = {}
 
 ---@type BalltzeConfig
 local configFile
 
-function state.load()
+function stateloader.load()
     if configFile == nil then
         local pluginPath = fs.getPluginPath()
         local configPath = pluginPath .. "\\config"
@@ -21,13 +21,13 @@ function state.load()
     end
 end
 
-function state.save()
+function stateloader.save()
     if configFile then
         configFile:save()
     end
 end
 
-function state.set(key, value)
+function stateloader.set(key, value)
     if configFile then
         configFile:set(key, value)
     else
@@ -35,7 +35,7 @@ function state.set(key, value)
     end
 end
 
-function state.exists(key)
+function stateloader.exists(key)
     if configFile then
         return configFile:exists(key)
     else
@@ -43,7 +43,7 @@ function state.exists(key)
     end
 end
 
-function state.remove(key)
+function stateloader.remove(key)
     if configFile then
         configFile:remove(key)
     else
@@ -51,7 +51,7 @@ function state.remove(key)
     end
 end
 
-function state.getString(key)
+function stateloader.getString(key)
     if configFile then
         return configFile:getString(key)
     else
@@ -59,7 +59,7 @@ function state.getString(key)
     end
 end
 
-function state.getNumber(key)
+function stateloader.getNumber(key)
     if configFile then
         return configFile:getNumber(key)
     else
@@ -67,14 +67,14 @@ function state.getNumber(key)
     end
 end
 
-function state.getInteger(key)
+function stateloader.getInteger(key)
     if not configFile then
         error("Failed to get Integer")
     end
     return configFile:getInteger(key)
 end
 
-function state.getBoolean(key)
+function stateloader.getBoolean(key)
     if configFile then
         return configFile:getBoolean(key)
     else
@@ -82,4 +82,4 @@ function state.getBoolean(key)
     end
 end
 
-return state
+return stateloader
