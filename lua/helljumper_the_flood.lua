@@ -8,7 +8,7 @@ local script = require "script"
 local blam = require "blam"
 local interface = require "helljumper.interface"
 local fontOverride = require "helljumper.fontOverride"
-local state = require "helljumper.witch_system.playerState"
+local stateLoader = require "helljumper.witch_system.stateLoader"
 local playerState = require "helljumper.witch_system.playerState"
 
 -- local main
@@ -75,28 +75,31 @@ local loaded = false
 
 function PluginFirstTick()
     fontOverride.setup()
-    state.load()
+    stateLoader.load()
 end
 
 function PluginLoad()
-    logger = balltze.logger.createLogger("Helljumper: The Flood")
+    logger = balltze.logger.createLogger("Helljumper")
     logger:muteDebug(not DebugMode)
     logger:muteIngame(not DebugMode)
     loadChimeraCompatibility()
-    balltze.command.registerCommand("save_equip", "debug", "description", nil, false, 0, 0, true,
+
+    ---Commands for Helljumper
+    balltze.command.registerCommand("save_state", "debug", "description", nil, false, 0, 0, true,
                                     false, function(args)
-        playerState.saveAmmo()
-        playerState.saveGrenades()
-        playerState.saveHealth()
+                                        playerState.saveGrenades()
+                                        playerState.saveHealth()
+                                        playerState.saveWeapon()
         return true
     end)
-        balltze.command.registerCommand("load_equip", "debug", "description", nil, false, 0, 0, true,
+        balltze.command.registerCommand("load_state", "debug", "description", nil, false, 0, 0, true,
                                     false, function(args)
-        playerState.assignAmmo()
-        playerState.loadGrenades()
-        playerState.loadHealth()
+                                        playerState.loadGrenades()
+                                        playerState.loadHealth()
+                                        playerState.loadWeapon()
         return true
     end)
+
     balltze.event.tick.subscribe(function(event)
         if event.time == "before" then
             script.dispatch()
