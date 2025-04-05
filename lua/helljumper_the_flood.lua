@@ -7,13 +7,12 @@ require "luna"
 local script = require "script"
 local blam = require "blam"
 local interface = require "helljumper.interface"
---local constants = require "helljumper.constants"
+local fontOverride = require "helljumper.fontOverride"
+local state = require "helljumper.witch_system.playerState"
+local playerState = require "helljumper.witch_system.playerState"
 
---local main
-local loadWhenIn = {
-    "f10_division_105",
-    "deployment_system"
-}
+-- local main
+local loadWhenIn = {"f10_division_105", "deployment_system"}
 
 loadWhenIn = table.extend(loadWhenIn, table.map(loadWhenIn, function(map)
     return map .. "_dev"
@@ -40,8 +39,8 @@ function OnFrame()
     local align = "right"
     local bounds = {left = 0, top = 460, right = 632, bottom = 480}
     local textColor = {1.0, 0.45, 0.72, 1.0}
-    draw_text("helljumperTheFlood-v-1.0.0", bounds.left, bounds.top, bounds.right, bounds.bottom, font, align,
-              table.unpack(textColor))
+    draw_text("helljumperTheFlood-v-1.0.0", bounds.left, bounds.top, bounds.right, bounds.bottom,
+              font, align, table.unpack(textColor))
 end
 
 local function loadChimeraCompatibility()
@@ -74,49 +73,51 @@ end
 
 local loaded = false
 
+function PluginFirstTick()
+    fontOverride.setup()
+    state.load()
+end
+
 function PluginLoad()
     logger = balltze.logger.createLogger("Helljumper: The Flood")
     logger:muteDebug(not DebugMode)
     logger:muteIngame(not DebugMode)
     loadChimeraCompatibility()
-
-    --Load lua file in "levels" folder with the same name of a map that has been opened in game
+    balltze.command.registerCommand("save_equip", "debug", "description", nil, false, 0, 0, true,
+                                    false, function(args)
+        playerState.saveAmmo()
+        playerState.saveGrenades()
+        playerState.saveHealth()
+        return true
+    end)
+        balltze.command.registerCommand("load_equip", "debug", "description", nil, false, 0, 0, true,
+                                    false, function(args)
+        playerState.assignAmmo()
+        playerState.loadGrenades()
+        playerState.loadHealth()
+        return true
+    end)
     balltze.event.tick.subscribe(function(event)
         if event.time == "before" then
             script.dispatch()
-            --balltze.features.setUIAspectRatio(16, 9)
+            -- balltze.features.setUIAspectRatio(16, 9)
             interface.changeAspectRatio()
-            --balltze.chimera.create_font_override("NexaDemo-Bold", constants.fonts.subtitle, 13, 400, 2, 2, 0, 3)
             if not loaded then
-                    local serverType = engine.netgame.getServerType()
-                    if serverType == "local" or serverType == "none" then
-                        local mapName = engine.map.getCurrentMapHeader().name
-                        local levelName = mapName:split("_dev")[1]
-                        local ok, result = pcall(require, "levels." .. levelName)
-                        if not ok then
-                            logger:warning("Error loading level script: {}", result)
-                        else
-                            logger:info("Loaded level script for \"{}\"", levelName)
-                        end
+                local serverType = engine.netgame.getServerType()
+                if serverType == "local" or serverType == "none" then
+                    local mapName = engine.map.getCurrentMapHeader().name
+                    local levelName = mapName:split("_dev")[1]
+                    local ok, result = pcall(require, "levels." .. levelName)
+                    if not ok then
+                        logger:warning("Error loading level script: {}", result)
+                    else
+                        logger:info("Loaded level script for \"{}\"", levelName)
                     end
-                    loaded = true
                 end
+                loaded = true
             end
-    end)
-
-    --local function main()
-    --    logger:info("Plugin Loaded")
-    --end
-
-    balltze.event.mapLoad.subscribe(function(event)
-        if event.time == "after" then
-            server_type = engine.netgame.getServerType()
-            -- weaponAmmoLoader.assignAmmo()
-            -- main()
         end
     end)
-
-    --main()
 
     return true
 end
