@@ -12,7 +12,7 @@ local playerState = {}
 function playerState.saveHealth()
     local player = getPlayer()
     if player then
-        local biped = getObject(player.objectHandle, engine.tag.objectType.biped)
+        local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
             state.set("player.health", biped.vitals.health)
             state.save()
@@ -23,7 +23,7 @@ end
 function playerState.loadHealth()
     local player = getPlayer()
     if player then
-        local biped = getObject(player.objectHandle, engine.tag.objectType.biped)
+        local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
             local healthKey = "player.health"
             if state.exists(healthKey) then
@@ -39,7 +39,7 @@ end
 function playerState.saveGrenades()
     local player = getPlayer()
     if player then
-        local biped = getObject(player.objectHandle, engine.tag.objectType.biped)
+        local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
             if state.exists("player.grenades") then
                 state.remove("player.grenades")
@@ -54,7 +54,7 @@ end
 function playerState.loadGrenades()
     local player = getPlayer()
     if player then
-        local biped = getObject(player.objectHandle, engine.tag.objectType.biped)
+        local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
             local grenade1Key = "player.grenades.frag"
             local grenade2Key = "player.grenades.plasma"
@@ -73,15 +73,15 @@ end
 function playerState.saveAmmo()
     local player = getPlayer()
     if player then
-        local biped = getObject(player.objectHandle, engine.tag.objectType.biped)
+        local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
             if state.exists("player.weaponState") then
                 state.remove("player.weaponState")
             end
             for weaponIndex = 1, 4 do
-                local weapon = getObject(biped.weapons[weaponIndex], engine.tag.objectType.weapon)
+                local weapon = getObject(biped.weapons[weaponIndex], objectTypes.weapon)
                 if weapon then
-                    local tag = engine.tag.getTag(weapon.tagHandle, engine.tag.classes.weapon)
+                    local tag = getTag(weapon.tagHandle, tagClasses.weapon)
                     if tag then
                         local tagPath = tag.path
                         state.set("player.weaponState." .. tagPath .. ".roundsLoaded", weapon.magazines[1].roundsLoaded)
@@ -98,12 +98,12 @@ end
 function playerState.loadAmmo()
     local player = getPlayer()
     if player then
-        local biped = getObject(player.objectHandle, engine.tag.objectType.biped)
+        local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
             for weaponIndex = 1, 4 do
-                local weapon = getObject(biped.weapons[weaponIndex], engine.tag.objectType.weapon)
+                local weapon = getObject(biped.weapons[weaponIndex], objectTypes.weapon)
                 if weapon then
-                    local tag = engine.tag.getTag(weapon.tagHandle, engine.tag.classes.weapon)
+                    local tag = getTag(weapon.tagHandle, tagClasses.weapon)
                     if tag then
                         local tagPath = tag.path
                         local roundsLoadedKey = "player.weaponState." .. tagPath .. ".roundsLoaded"
