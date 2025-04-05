@@ -70,6 +70,8 @@ function playerState.loadGrenades()
     end
 end
 
+
+
 function playerState.saveWeapon()
     local player = getPlayer()
     if player then
@@ -84,9 +86,10 @@ function playerState.saveWeapon()
                     local tag = getTag(weapon.tagHandle, tagClasses.weapon)
                     if tag then
                         local tagPath = tag.path
-                        state.set("player.weaponInventory." .. tagPath .. ".roundsLoaded", weapon.magazines[1].roundsLoaded)
-                        state.set("player.weaponInventory." .. tagPath .. ".roundsUnloaded", weapon.magazines[1].roundsUnloaded)
-                        state.set("player.weaponInventory." .. tagPath .. ".energy", weapon.age)
+                        state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsLoaded", weapon.magazines[1].roundsLoaded)
+                        state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsUnloaded", weapon.magazines[1].roundsUnloaded)
+                        state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.energy", weapon.age)
+                        state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.tagPath.", tagPath)
                     end
                 end
             end
@@ -105,19 +108,23 @@ function playerState.loadWeapon()
                 if weapon then
                     local tag = getTag(weapon.tagHandle, tagClasses.weapon)
                     if tag then
-                        local tagPath = tag.path
-                        local roundsLoadedKey = "player.weaponInventory." .. tagPath .. ".roundsLoaded"
-                        local roundsUnloadedKey = "player.weaponInventory." .. tagPath .. ".roundsUnloaded"
-                        local ageKey = "player.weaponInventory." .. tagPath .. ".energy"
+                        --local tagPath = tag.path
+                        local roundsLoadedKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsLoaded"
+                        local roundsUnloadedKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsUnloaded"
+                        local ageKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.energy"
+                        local weaponPathKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.tagPath."
                         if state.exists(roundsLoadedKey) and state.exists(roundsUnloadedKey) and
-                            state.exists(ageKey) then
+                        state.exists(ageKey) and state.exists(weaponPathKey) then
                             local roundsLoadedValue = state.getInteger(roundsLoadedKey)
                             local roundsUnloadedValue = state.getInteger(roundsUnloadedKey)
                             local ageValue = state.getNumber(ageKey)
-                            if roundsLoadedValue and roundsUnloadedValue and ageValue then
+                            local weaponPathValue = state.getString(weaponPathKey)
+                            if roundsLoadedValue and roundsUnloadedValue and ageValue and weaponPathValue then
                                 weapon.magazines[1].roundsLoaded = roundsLoadedValue
                                 weapon.magazines[1].roundsUnloaded = roundsUnloadedValue
                                 weapon.age = ageValue
+                                tag.path = weaponPathValue
+                                --engine.gameState.unitAddWeapon(player.objectHandle.value, tag.handle)
                             end
                         end
                     end
