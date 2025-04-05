@@ -92,7 +92,7 @@ function playerState.saveWeapon()
                         state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsLoaded", weapon.magazines[1].roundsLoaded)
                         state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsUnloaded", weapon.magazines[1].roundsUnloaded)
                         state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.energy", weapon.age)
-                        state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.tagPath.", tagPath)
+                        state.set("player.weaponInventory." .. weaponIndex .. ".weaponTag.tagPath", tagPath)
                     end
                 end
             end
@@ -120,7 +120,7 @@ function playerState.loadWeapon()
                         local roundsLoadedKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsLoaded"
                         local roundsUnloadedKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.roundsUnloaded"
                         local ageKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.energy"
-                        local weaponPathKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.tagPath."
+                        local weaponPathKey = "player.weaponInventory." .. weaponIndex .. ".weaponTag.tagPath"
                         
                         if state.exists(roundsLoadedKey) and state.exists(roundsUnloadedKey) and state.exists(ageKey) and state.exists(weaponPathKey) then
                             local roundsLoadedValue = state.getInteger(roundsLoadedKey)
