@@ -10,14 +10,14 @@ local configFile
 function stateloader.load()
     if configFile == nil then
         local pluginPath = fs.getPluginPath()
-        local configPath = pluginPath .. "\\config"
+        local configPath = pluginPath .. "\\config\\game_data"
         if not fs.directoryExists(configPath) then
             fs.createDirectory(configPath)
         end
-        configFile = balltze.config.open(configPath .. "\\test.json")
+        configFile = balltze.config.open(configPath .. "\\playerData.json")
         configFile:load()
     else
-        error("Config file already loaded")
+        error("Config File Already Loaded")
     end
 end
 
@@ -31,7 +31,7 @@ function stateloader.set(key, value)
     if configFile then
         configFile:set(key, value)
     else
-        error("Failed to Load Config")
+        error("Failed to Set Values")
     end
 end
 
