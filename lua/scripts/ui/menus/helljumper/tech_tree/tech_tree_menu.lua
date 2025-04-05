@@ -9,30 +9,66 @@ local container = require "lua.scripts.ui.components.container"
 local options = require "lua.scripts.ui.components.options"
 local image = require "lua.scripts.ui.components.image"
 local buttonTechTree = require "lua.scripts.ui.components.buttonTechTree"
+local buttonMulti = require "lua.scripts.ui.components.buttonMulti"
 local bar = require "lua.scripts.ui.components.bar"
 
 widget.init "keymind/helljumper/ui/menus/tech_tree/"
 
-local tabLayout = widget.layout {alignment = "horizontal", size = 177, x = 20, y = 120, margin = 3}
+local tabLayout = widget.layout {alignment = "horizontal", size = 177, x = 20, y = 65, margin = 3}
+local optionsLayout = widget.layout {
+    alignment = "horizontal",
+    size = 149,
+    x = 20,
+    y = 462,
+    margin = 2
+}
 local upgradeLayoutI = widget.layout {
     alignment = "vertical",
     size = 246,
     x = 20,
-    y = 173,
+    y = 130,
     margin = -186
 }
 local upgradeLayoutII = widget.layout {
     alignment = "vertical",
     size = 246,
     x = 85,
-    y = 173,
+    y = 130,
     margin = -186
 }
 local upgradeLayoutIII = widget.layout {
     alignment = "vertical",
     size = 246,
     x = 170,
-    y = 173,
+    y = 130,
+    margin = -186
+}
+local upgradeLayoutIV = widget.layout {
+    alignment = "vertical",
+    size = 246,
+    x = 230,
+    y = 130,
+    margin = -186
+}
+local upgradeLayoutV = widget.layout {
+    alignment = "vertical",
+    size = 246,
+    x = 290,
+    y = 130,
+    margin = -186
+}
+local upgradeLayoutVb = widget.layout {
+    alignment = "vertical",
+    size = 246,
+    x = 290,
+    y = 190,
+    margin = -186
+}
+local upgradeLayoutVI = widget.layout {
+    alignment = "vertical",
+    size = 246,
+    x = 350,
+    y = 130,
     margin = -186
 }
 
@@ -51,13 +87,60 @@ return container {
         },
         {
             label {
+                name = "item_name",
+                text = strmem(32, "$itemName"),
+                variant = "text",
+                justify = "left",
+                color = "yellow"
+            },
+            20,
+            375
+        },
+        {
+            label {
+                name = "tp_cost_text",
+                text = strmem(32, "Cost:"),
+                variant = "text",
+                justify = "left",
+                color = "white"
+            },
+            20,
+            400
+        },
+        {
+            label {
+                name = "tp_cost_number",
+                text = strmem(32, "00"),
+                variant = "text",
+                justify = "left",
+                color = "white"
+            },
+            60,
+            400
+        },
+        {
+            label {
+                name = "item_description",
+                text = strmem(256,
+                              "This is a test for the item description with a purpose to have a mid or large text."),
+                variant = "button",
+                justify = "left",
+                color = "silver"
+            },
+            20,
+            425
+        },
+        {
+            label {
                 name = "tech_points_title",
                 text = strmem(256, "TECH POINTS"),
                 variant = "button",
-                color = "white"
+                justify = "right",
+                color = "white",
+                width = 132
             },
-            pos.header.x,
-            62
+            763,
+            400
         },
         {
             image {
@@ -67,19 +150,20 @@ return container {
                 image = [[keymind/helljumper/ui/bitmaps/icons/tech_points.bitmap]],
                 scale = 0.25
             },
-            pos.header.x,
-            86
+            807,
+            425
         },
         {
             label {
                 name = "tech_points_amount",
                 text = strmem(3, "000"),
                 variant = "button",
-                justify = "left",
-                color = "white"
+                justify = "right",
+                color = "yellow",
+                width = 32
             },
-            48,
-            85
+            772,
+            424
         },
         { ---Tab buttons for categories on tech tree
             options {
@@ -109,17 +193,63 @@ return container {
                         },
                         tabLayout()
                     },
+                    -- {
+                    --     buttonTechTree {
+                    --         name = "weapons_tab",
+                    --         -- text = strmem(32, "WEAPONS"),
+                    --         justification = "center_justify",
+                    --         variant = "tab",
+                    --         childs = {
+                    --             {
+                    --                 label {
+                    --                     name = "weapons_tab",
+                    --                     text = strmem(32, "WEAPONS & EQUIP"),
+                    --                     variant = "text",
+                    --                     justify = "center",
+                    --                     color = "white",
+                    --                     width = 177
+                    --                 },
+                    --                 22,
+                    --                 4
+                    --             }
+                    --         }
+                    --     },
+                    --     tabLayout()
+                    -- },
+                    -- {
+                    --     buttonTechTree {
+                    --         name = "vehicles_tab",
+                    --         -- text = strmem(32, "WEAPONS"),
+                    --         justification = "center_justify",
+                    --         variant = "tab",
+                    --         childs = {
+                    --             {
+                    --                 label {
+                    --                     name = "vehicles_tab",
+                    --                     text = strmem(32, "VEHICLES"),
+                    --                     variant = "text",
+                    --                     justify = "center",
+                    --                     color = "white",
+                    --                     width = 177
+                    --                 },
+                    --                 35,
+                    --                 4
+                    --             }
+                    --         }
+                    --     },
+                    --     tabLayout()
+                    -- },
                     {
                         buttonTechTree {
-                            name = "weapons_tab",
+                            name = "archetype_tab",
                             -- text = strmem(32, "WEAPONS"),
                             justification = "center_justify",
                             variant = "tab",
                             childs = {
                                 {
                                     label {
-                                        name = "weapons_tab",
-                                        text = strmem(32, "WEAPONS"),
+                                        name = "archetype_tab",
+                                        text = strmem(32, "ARCHETYPE"),
                                         variant = "text",
                                         justify = "center",
                                         color = "white",
@@ -135,40 +265,41 @@ return container {
                 }
             }
         },
-        { ---Tech tree upgrade buttons
+        { ---TECH TREE UPGRADE BUTTONS
             options {
                 name = "tech_tree_grid_buttons",
                 alignment = "vertical",
                 childs = {
-                    -- {
-                    --     label {
-                    --         name = "armor_header",
-                    --         text = strmem(32, "ARMOR"),
-                    --         variant = "button",
-                    --         justify = "left",
-                    --         color = "yellow",
-                    --     },
-                    --     26,
-                    --     152
-                    -- },
+                    {
+                        label {
+                            name = "armor_header",
+                            text = strmem(32, "ARMOR"),
+                            variant = "button",
+                            justify = "left",
+                            color = "white",
+                            width = 70
+                        },
+                        26,
+                        108
+                    },
                     { ---First Column
                         buttonTechTree {
-                            name = "armor_upgrade",
+                            name = "armor_unlock",
                             justification = "center_justify",
                             variant = "simple",
                             childs = {
                                 {
                                     image {
-                                        name = "armor_upgrade",
+                                        name = "armor_unlock",
                                         width = 246,
                                         height = 216,
-                                        image = [[keymind/helljumper/ui/bitmaps/icons/upgrade_armor_icon.bitmap]],
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/00a_armor_unlock.bitmap]],
                                         scale = 0.244
                                     }
                                 },
                                 {
                                     bar {
-                                        name = "connection_armor",
+                                        name = "connection_ver",
                                         orientation = "vertical",
                                         type = "scroll",
                                         size = 12
@@ -182,22 +313,22 @@ return container {
                     },
                     {
                         buttonTechTree {
-                            name = "titanium_a_upgrade",
+                            name = "titanium_a",
                             justification = "center_justify",
                             variant = "upgrade",
                             childs = {
                                 {
                                     image {
-                                        name = "titanium_upgrade",
+                                        name = "titanium_a",
                                         width = 246,
                                         height = 216,
-                                        image = [[keymind/helljumper/ui/bitmaps/icons/upgrade_titanium_icon.bitmap]],
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/00b_titanium_a.bitmap]],
                                         scale = 0.244
                                     }
                                 },
                                 {
                                     label {
-                                        name = "titanium_upgrade",
+                                        name = "titanium_a",
                                         text = strmem(32, "0/4"),
                                         variant = "shadow",
                                         justify = "center",
@@ -205,30 +336,30 @@ return container {
                                         width = 60
                                     },
                                     15,
-                                    38
+                                    39
                                 }
                             }
                         },
                         upgradeLayoutI()
                     },
-                    { ---Seccond Column
+                    { ---Seccond Column HEALTH REGEN
                         buttonTechTree {
-                            name = "health_regen_upgrade",
+                            name = "health_regen_unlock",
                             justification = "center_justify",
                             variant = "simple",
                             childs = {
                                 {
                                     image {
-                                        name = "health_regen_upgrade",
+                                        name = "health_regen_unlock",
                                         width = 246,
                                         height = 216,
-                                        image = [[keymind/helljumper/ui/bitmaps/icons/upgrade_health_regen_icon.bitmap]],
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/01a_health_regen_unlock.bitmap]],
                                         scale = 0.244
                                     }
                                 },
                                 {
                                     bar {
-                                        name = "connection_hregen",
+                                        name = "connection_ver",
                                         orientation = "vertical",
                                         type = "scroll",
                                         size = 12
@@ -242,22 +373,22 @@ return container {
                     },
                     {
                         buttonTechTree {
-                            name = "h_regen_up_upgrade",
+                            name = "health_regen_upgrade",
                             justification = "center_justify",
                             variant = "upgrade",
                             childs = {
                                 {
                                     image {
-                                        name = "h_regen_up_upgrade",
+                                        name = "health_regen_upgrade",
                                         width = 246,
                                         height = 216,
-                                        image = [[keymind/helljumper/ui/bitmaps/icons/upgrade_hregen_up_icon.bitmap]],
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/01b_health_regen_upgrade.bitmap]],
                                         scale = 0.244
                                     }
                                 },
                                 {
                                     label {
-                                        name = "h_regen_up_upgrade",
+                                        name = "health_regen_upgrade",
                                         text = strmem(32, "0/3"),
                                         variant = "shadow",
                                         justify = "center",
@@ -265,30 +396,71 @@ return container {
                                         width = 60
                                     },
                                     16,
-                                    38
+                                    39
+                                },
+                                { ---Vertical Bar Short
+                                    bar {
+                                        name = "connection_ver_short",
+                                        orientation = "vertical",
+                                        type = "scroll",
+                                        size = 7
+                                    },
+                                    30,
+                                    53
                                 }
                             }
                         },
                         upgradeLayoutII()
                     },
+                    {
+                        buttonTechTree {
+                            name = "health_regen_mastery",
+                            justification = "center_justify",
+                            variant = "simple",
+                            childs = {
+                                {
+                                    image {
+                                        name = "health_regen_mastery",
+                                        width = 246,
+                                        height = 216,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/01c_health_regen_mastery.bitmap]],
+                                        scale = 0.244
+                                    }
+                                }
+                            }
+                        },
+                        upgradeLayoutII()
+                    },
+                    {
+                        label {
+                            name = "shield_header",
+                            text = strmem(32, "SHIELD"),
+                            variant = "button",
+                            justify = "left",
+                            color = "white",
+                            width = 70
+                        },
+                        176,
+                        108
+                    },
                     { ---Third Column SHIELD
                         buttonTechTree {
-                            name = "shield_failure_upgrade",
+                            name = "shield_failure",
                             justification = "center_justify",
                             variant = "simple",
                             childs = {
                                 {
                                     image {
-                                        name = "shield_failure_upgrade",
+                                        name = "shield_failure",
                                         width = 246,
                                         height = 216,
-                                        image = [[keymind/helljumper/ui/bitmaps/icons/upgrade_shield_failure_icon.bitmap]],
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/03a_shield_failure.bitmap]],
                                         scale = 0.244
                                     }
                                 },
                                 {
                                     bar {
-                                        name = "connection_hregen",
+                                        name = "connection_ver",
                                         orientation = "vertical",
                                         type = "scroll",
                                         size = 12
@@ -298,13 +470,13 @@ return container {
                                 },
                                 {
                                     bar {
-                                        name = "connection_hregen",
+                                        name = "connection_hor",
                                         orientation = "horizontal",
-                                        type = "scroll",
+                                        type = "progress",
                                         size = 12
                                     },
-                                    48,
-                                    30
+                                    54,
+                                    22
                                 }
                             }
                         },
@@ -312,22 +484,22 @@ return container {
                     },
                     {
                         buttonTechTree {
-                            name = "shield_leak_upgrade",
+                            name = "shield_leak",
                             justification = "center_justify",
                             variant = "simple",
                             childs = {
                                 {
                                     image {
-                                        name = "shield_leak_upgrade",
+                                        name = "shield_leak",
                                         width = 246,
                                         height = 216,
-                                        image = [[keymind/helljumper/ui/bitmaps/icons/upgrade_shield_leak_icon.bitmap]],
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/03b_shield_leak.bitmap]],
                                         scale = 0.244
                                     }
                                 },
                                 {
                                     bar {
-                                        name = "connection_hregen",
+                                        name = "connection_ver",
                                         orientation = "vertical",
                                         type = "scroll",
                                         size = 12
@@ -341,22 +513,266 @@ return container {
                     },
                     {
                         buttonTechTree {
-                            name = "shield_b_proof_upgrade",
+                            name = "shield_mastery",
                             justification = "center_justify",
                             variant = "simple",
                             childs = {
                                 {
                                     image {
-                                        name = "shield_b_proof_upgrade",
+                                        name = "shield_mastery",
                                         width = 246,
                                         height = 216,
-                                        image = [[keymind/helljumper/ui/bitmaps/icons/upgrade_shield_bulletproof_icon.bitmap]],
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/03c_shield_mastery.bitmap]],
                                         scale = 0.244
                                     }
                                 }
                             }
                         },
                         upgradeLayoutIII()
+                    },
+                    { ---Fourth Column Shield upgrade
+                        buttonTechTree {
+                            name = "shield_unlock",
+                            justification = "center_justify",
+                            variant = "simple",
+                            childs = {
+                                {
+                                    image {
+                                        name = "shield_unlock",
+                                        width = 246,
+                                        height = 216,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/06a_shield_unlock.bitmap]],
+                                        scale = 0.244
+                                    }
+                                },
+                                {
+                                    bar {
+                                        name = "connection_ver",
+                                        orientation = "vertical",
+                                        type = "scroll",
+                                        size = 12
+                                    },
+                                    30,
+                                    48
+                                },
+                                {
+                                    bar {
+                                        name = "connection_hor",
+                                        orientation = "horizontal",
+                                        type = "progress",
+                                        size = 12
+                                    },
+                                    54,
+                                    22
+                                }
+                            }
+                        },
+                        upgradeLayoutIV()
+                    },
+                    {
+                        buttonTechTree {
+                            name = "shield_upgrade",
+                            justification = "center_justify",
+                            variant = "upgrade",
+                            childs = {
+                                {
+                                    image {
+                                        name = "shield_upgrade",
+                                        width = 246,
+                                        height = 216,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/06b_shield_upgrade.bitmap]],
+                                        scale = 0.244
+                                    }
+                                },
+                                {
+                                    label {
+                                        name = "shield_upgrade",
+                                        text = strmem(32, "0/4"),
+                                        variant = "shadow",
+                                        justify = "center",
+                                        color = "white",
+                                        width = 60
+                                    },
+                                    16,
+                                    39
+                                },
+                                {
+                                    bar {
+                                        name = "connection_hor",
+                                        orientation = "horizontal",
+                                        type = "progress",
+                                        size = 12
+                                    },
+                                    54,
+                                    22
+                                }
+                            }
+                        },
+                        upgradeLayoutIV()
+                    },
+                    { ---Fifth Column SHIELD STUN
+                        buttonTechTree {
+                            name = "shield_stun",
+                            justification = "center_justify",
+                            variant = "upgrade",
+                            childs = {
+                                {
+                                    image {
+                                        name = "shield_stun",
+                                        width = 246,
+                                        height = 216,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/04_shield_stun.bitmap]],
+                                        scale = 0.244
+                                    }
+                                },
+                                {
+                                    label {
+                                        name = "shield_stun",
+                                        text = strmem(32, "0/3"),
+                                        variant = "shadow",
+                                        justify = "center",
+                                        color = "white",
+                                        width = 60
+                                    },
+                                    16,
+                                    39
+                                },
+                                {
+                                    bar {
+                                        name = "connection_hor",
+                                        orientation = "horizontal",
+                                        type = "progress",
+                                        size = 12
+                                    },
+                                    54,
+                                    22
+                                }
+                            }
+                        },
+                        upgradeLayoutV()
+                    },
+                    { ---Fifth Down Column Shield Emp
+                        buttonTechTree {
+                            name = "shield_emp",
+                            justification = "center_justify",
+                            variant = "simple",
+                            childs = {
+                                {
+                                    image {
+                                        name = "shield_emp",
+                                        width = 246,
+                                        height = 216,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/07a_shield_emp.bitmap]],
+                                        scale = 0.244
+                                    }
+                                },
+                                {
+                                    bar {
+                                        name = "connection_ver",
+                                        orientation = "vertical",
+                                        type = "scroll",
+                                        size = 12
+                                    },
+                                    30,
+                                    48
+                                }
+                            }
+                        },
+                        upgradeLayoutVb()
+                    },
+                    {
+                        buttonTechTree {
+                            name = "shield_emp_upgrade",
+                            justification = "center_justify",
+                            variant = "upgrade",
+                            childs = {
+                                {
+                                    image {
+                                        name = "shield_emp_upgrade",
+                                        width = 246,
+                                        height = 216,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/07b_shield_emp_upgrade.bitmap]],
+                                        scale = 0.244
+                                    }
+                                },
+                                {
+                                    label {
+                                        name = "shield_emp_upgrade",
+                                        text = strmem(32, "0/4"),
+                                        variant = "shadow",
+                                        justify = "center",
+                                        color = "white",
+                                        width = 60
+                                    },
+                                    16,
+                                    39
+                                }
+                            }
+                        },
+                        upgradeLayoutVb()
+                    },
+                    { ---Sixth Column SHIELD RECHARGE
+                        buttonTechTree {
+                            name = "shield_recharge",
+                            justification = "center_justify",
+                            variant = "upgrade",
+                            childs = {
+                                {
+                                    image {
+                                        name = "shield_recharge",
+                                        width = 246,
+                                        height = 216,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/05_shield_recharge.bitmap]],
+                                        scale = 0.244
+                                    }
+                                },
+                                {
+                                    label {
+                                        name = "shield_recharge",
+                                        text = strmem(32, "0/3"),
+                                        variant = "shadow",
+                                        justify = "center",
+                                        color = "white",
+                                        width = 60
+                                    },
+                                    16,
+                                    39
+                                }
+                            }
+                        },
+                        upgradeLayoutVI()
+                    },
+                    {
+                        buttonMulti {
+                            name = "back",
+                            -- text = "BACK",
+                            variant = "back",
+                            back = true,
+                            childs = {
+                                {
+                                    image {
+                                        name = "escape_button",
+                                        width = 92,
+                                        height = 46,
+                                        image = [[keymind/helljumper/ui/bitmaps/icons/esc_icon.bitmap]],
+                                        scale = 0.2
+                                    }
+                                },
+                                {
+                                    label {
+                                        name = "escape_button",
+                                        text = strmem(32, "BACK"),
+                                        variant = "shadow",
+                                        justify = "center",
+                                        color = "yellow",
+                                        width = 92
+                                    },
+                                    2,
+                                    -5
+                                }
+                            }
+                        },
+                        optionsLayout()
                     }
                 }
             }
