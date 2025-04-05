@@ -5,7 +5,6 @@ local tagClasses = Engine.tag.classes
 local getTag = Engine.tag.getTag
 local getObject = Engine.gameState.getObject
 local getPlayer = Engine.gameState.getPlayer
-local json = require "helljumper.witch_system.jsonBuilder"
 
 local weaponExtensions = {}
 
