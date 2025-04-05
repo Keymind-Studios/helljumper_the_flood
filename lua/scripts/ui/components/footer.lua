@@ -7,6 +7,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field title string
 ---@field text string
 ---@field justify? "left" | "center" | "right"
+---@field variant? "borrow" | "tech"
 
 ---@param props footerProps
 ---@return string
@@ -14,6 +15,7 @@ return function(props)
     local name = props.name
     local title = props.title
     local text = props.text
+    local variant = props.variant or "borrow"
     -- Generate strings tag
     local stringsTagPath = widget.path .. "strings/" .. name .. "_footer.unicode_string_list"
     local titlePath = widget.path .. name .. [[_footer_title.ui_widget_definition]]
