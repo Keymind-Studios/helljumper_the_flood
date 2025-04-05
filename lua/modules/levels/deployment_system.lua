@@ -15,7 +15,6 @@ local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjecti
 -- local sprint = require "helljumper.gameplay_core.playerSprint"
 local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
 local deploymentTest = require "helljumper.witch_system.deploymentTest"
-local weaponAmmoLoader = require "helljumper.witch_system.weapAmmoStateLoader"
 
 dynamicCross.initializeSettings()
 
@@ -32,11 +31,6 @@ function OnTick()
     playerPingObjectives.pingObjectives()
     -- weaponExtensions.casterFixHeat()
     -- deploymentTest.eachTick()
-    -- weaponAmmoLoader.assignAmmo()
-end
-
-function OnMapLoad()
-    -- weaponAmmoLoader.assignAmmo()
 end
 
 local onTickEvent = balltze.event.tick.subscribe(function(event)
