@@ -56,27 +56,27 @@ function playerState.loadGrenades()
     if player then
         local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
-            local grenade1Key = "player.grenades.frag"
-            local grenade2Key = "player.grenades.plasma"
-            if state.exists(grenade1Key) and state.exists(grenade2Key) then
-                local grenade1value = state.getInteger(grenade1Key)
-                local grenade2Value = state.getInteger(grenade2Key)
-                if grenade1value and grenade2Value then
-                    biped.grenadeCounts[1] = grenade1value
-                    biped.grenadeCounts[2] = grenade2Value
+            local gFragKey = "player.grenades.frag"
+            local gPlasmaKey = "player.grenades.plasma"
+            if state.exists(gFragKey) and state.exists(gPlasmaKey) then
+                local gFragvalue = state.getInteger(gFragKey)
+                local gPlasmaValue = state.getInteger(gPlasmaKey)
+                if gFragvalue and gPlasmaValue then
+                    biped.grenadeCounts[1] = gFragvalue
+                    biped.grenadeCounts[2] = gPlasmaValue
                 end
             end
         end
     end
 end
 
-function playerState.saveAmmo()
+function playerState.saveWeapon()
     local player = getPlayer()
     if player then
         local biped = getObject(player.objectHandle, objectTypes.biped)
         if biped then
-            if state.exists("player.weaponState") then
-                state.remove("player.weaponState")
+            if state.exists("player.weaponInventory") then
+                state.remove("player.weaponInventory")
             end
             for weaponIndex = 1, 4 do
                 local weapon = getObject(biped.weapons[weaponIndex], objectTypes.weapon)
@@ -84,9 +84,9 @@ function playerState.saveAmmo()
                     local tag = getTag(weapon.tagHandle, tagClasses.weapon)
                     if tag then
                         local tagPath = tag.path
-                        state.set("player.weaponState." .. tagPath .. ".roundsLoaded", weapon.magazines[1].roundsLoaded)
-                        state.set("player.weaponState." .. tagPath .. ".roundsUnloaded", weapon.magazines[1].roundsUnloaded)
-                        state.set("player.weaponState." .. tagPath .. ".energy", weapon.age)
+                        state.set("player.weaponInventory." .. tagPath .. ".roundsLoaded", weapon.magazines[1].roundsLoaded)
+                        state.set("player.weaponInventory." .. tagPath .. ".roundsUnloaded", weapon.magazines[1].roundsUnloaded)
+                        state.set("player.weaponInventory." .. tagPath .. ".energy", weapon.age)
                     end
                 end
             end
@@ -95,7 +95,7 @@ function playerState.saveAmmo()
     end
 end
 
-function playerState.loadAmmo()
+function playerState.loadWeapon()
     local player = getPlayer()
     if player then
         local biped = getObject(player.objectHandle, objectTypes.biped)
@@ -106,9 +106,9 @@ function playerState.loadAmmo()
                     local tag = getTag(weapon.tagHandle, tagClasses.weapon)
                     if tag then
                         local tagPath = tag.path
-                        local roundsLoadedKey = "player.weaponState." .. tagPath .. ".roundsLoaded"
-                        local roundsUnloadedKey = "player.weaponState." .. tagPath .. ".roundsUnloaded"
-                        local ageKey = "player.weaponState." .. tagPath .. ".energy"
+                        local roundsLoadedKey = "player.weaponInventory." .. tagPath .. ".roundsLoaded"
+                        local roundsUnloadedKey = "player.weaponInventory." .. tagPath .. ".roundsUnloaded"
+                        local ageKey = "player.weaponInventory." .. tagPath .. ".energy"
                         if state.exists(roundsLoadedKey) and state.exists(roundsUnloadedKey) and
                             state.exists(ageKey) then
                             local roundsLoadedValue = state.getInteger(roundsLoadedKey)
