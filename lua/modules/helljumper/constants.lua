@@ -1,7 +1,9 @@
 -- Lua libraries
 local blam = require "blam"
 local tagClasses = blam.tagClasses
-local findTag = blam.findTag
+local engine = Engine
+local balltze = Balltze
+local findTags = engine.tag.findTags
 
 local constants = {}
 
@@ -70,6 +72,10 @@ constants.color = {
     berry = "#a01c4b",
 }
 
+constants.limits = {
+    maximumPlayers = 15,
+}
+
 -- Constant core values
 constants.localPlayerAddress = 0x815918
 
@@ -101,7 +107,8 @@ constants.projectiles = {
 
 -- Weapon References
 constants.weapons = {
-    ma38Tag = blam.findTag("assault_rifle_ma38", tagClasses.weapon)
+    ma38Tag = findTags("assault_rifle_ma38", engine.tag.classes.weapon)[1],
+    plasmaCasterTag = findTags("cv_grenade_launcher", engine.tag.classes.weapon)[1]
 }
 
 -- Biped References
@@ -116,11 +123,11 @@ constants.weaponHudInterfaces = {
 
 local fontName = "nexa-bold-"
 constants.fonts = {
-    text = findTag(fontName .. "text", tagClasses.font),
-    title = findTag(fontName .. "title", tagClasses.font),
-    subtitle = findTag(fontName .. "subtitle", tagClasses.font),
-    button = findTag(fontName .. "button", tagClasses.font),
-    shadow = findTag(fontName .. "shadow", tagClasses.font)
+    text = findTags("nexa-light-text", tagClasses.font[1]),
+    title = findTags(fontName .. "title", tagClasses.font[1]),
+    subtitle = findTags("nexa-light-subtitle", tagClasses.font[1]),
+    button = findTags(fontName .. "button", tagClasses.font[1]),
+    shadow = findTags(fontName .. "shadow", tagClasses.font[1])
 }
 
 return constants
