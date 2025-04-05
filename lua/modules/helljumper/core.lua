@@ -5,6 +5,7 @@ local blam = require "blam"
 
 local core = {}
 
+
 local const = require "helljumper.constants"
 
 ---@class vector3D
@@ -162,42 +163,6 @@ function core.calculateRaycast(player)
     return rayX, rayY, rayZ
 end
 
----Get the current screen aspect ratio
----@return number aspectWidth, number aspectHeight
-function core.getScreenAspectRatio()
-    local screenWidth, screenHeight = core.getScreenResolution()
-    log("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
-    -- Calculate the greatest common divisor (GCD) using Euclidean algorithm
-    local function gcd(a, b)
-        while b ~= 0 do
-            a, b = b, a % b
-        end
-        return a
-    end
 
-    -- Calculate the aspect ratio
-    local divisor = gcd(screenWidth, screenHeight)
-    local aspectWidth = screenWidth / divisor
-    local aspectHeight = screenHeight / divisor
-
-    -- Format the aspect ratio as a string
-    -- local aspectRatioString = string.format("%d:%d", aspectWidth, aspectHeight)
-
-    return aspectWidth, aspectHeight
-end
-
----Attempt to connect a game server
----@param host string
----@param port number
----@param password string
-function core.connectServer(host, port, password)
-    local command = "connect %s:%s \"%s\""
-    engine.hsc.executeScript(command:format(host, port, password))
-end
-
-function core.getMyGamesHaloCEPath()
-    local myGamesPath = read_string(0x00647830)
-    return myGamesPath
-end
 
 return core
