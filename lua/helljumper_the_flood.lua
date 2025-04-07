@@ -10,6 +10,7 @@ local interface = require "helljumper.interface"
 local fontOverride = require "helljumper.fontOverride"
 local stateLoader = require "helljumper.witch_system.stateLoader"
 local playerState = require "helljumper.witch_system.playerState"
+local rucksack = require "helljumper.witch_system.rucksack.rucksack"
 
 -- local main
 local loadWhenIn = {"f10_division_105", "deployment_system"}
@@ -76,6 +77,7 @@ local loaded = false
 function PluginFirstTick()
     fontOverride.setup()
     stateLoader.load()
+    --rucksack.saveSpecialAmmo()
 end
 
 function PluginLoad()
@@ -99,12 +101,17 @@ function PluginLoad()
                                         playerState.loadWeapon()
         return true
     end)
-
+            balltze.command.registerCommand("load_ammo", "debug", "description", nil, false, 0, 0, true,
+                                    false, function(args)
+                                        rucksack.loadSpecialAmmo()
+        return true
+    end)
     balltze.event.tick.subscribe(function(event)
         if event.time == "before" then
             script.dispatch()
             -- balltze.features.setUIAspectRatio(16, 9)
             interface.changeAspectRatio()
+            rucksack.saveSpecialAmmo()
             if not loaded then
                 local serverType = engine.netgame.getServerType()
                 if serverType == "local" or serverType == "none" then
