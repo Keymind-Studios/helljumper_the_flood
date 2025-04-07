@@ -133,7 +133,7 @@ function playerState.loadWeapon()
                                     local weaponHandle = engine.gameState.createObject(weaponTag.handle, nil, { x = 0, y = 0, z = 0 })
                                     local weapon = getObject(weaponHandle, objectTypes.weapon)
                                     if weapon then
-                                        engine.gameState.unitAddWeaponToInventory(player.objectHandle, weaponHandle, 0)
+                                        engine.gameState.unitAddWeaponToInventory(player.objectHandle, weaponHandle, weaponIndex)
                                         weapon.magazines[1].roundsLoaded = roundsLoadedValue
                                         weapon.magazines[1].roundsUnloaded = roundsUnloadedValue
                                         weapon.age = ageValue
