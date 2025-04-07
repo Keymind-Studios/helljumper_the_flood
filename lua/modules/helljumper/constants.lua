@@ -4,8 +4,16 @@ local tagClasses = blam.tagClasses
 local engine = Engine
 local balltze = Balltze
 local findTags = engine.tag.findTags
+local tagClass = engine.tag.classes
 
 local constants = {}
+
+
+constants.paths = {
+    piercingAmmoCrate = [[keymind\helljumper\objects\devices\ammo_crates\armor_piercing_ammo]],
+    fireAmmoCrate = [[keymind\helljumper\objects\devices\ammo_crates\fire_ammo]],
+    disruptionAmmoCrate = [[keymind\helljumper\objects\devices\ammo_crates\disruption_ammo]]
+}
 
 constants.color = {
     ---SULFUR---
@@ -114,6 +122,14 @@ constants.weapons = {
 -- Biped References
 constants.bipeds = {
     odstAllyTag = blam.findTag("gridharvolur_ally", tagClasses.biped)
+}
+
+-- Device Control
+constants.deviceControl = {
+    fireAmmoControl = findTags(constants.paths.fireAmmoCrate, tagClass.deviceControl)[1],
+    --explosiveAmmocontrol = findTags("explosive_ammo", tagClass.deviceControl)[1],
+    disruptiveAmmocontrol = findTags(constants.paths.disruptionAmmoCrate, tagClass.deviceControl)[1],
+    piercingAmmocontrol = findTags(constants.paths.piercingAmmoCrate, tagClass.deviceControl)[1]
 }
 
 -- Weapon HUD References
