@@ -4,7 +4,6 @@ DebugMode = true
 package.preload["luna"] = nil
 package.loaded["luna"] = nil
 require "luna"
-local blam = require "blam"
 
 -- Gameplay Core Modules
 local dynamicCross = require "helljumper.gameplay_core.dynamicCross"
@@ -42,18 +41,11 @@ local onFrameEvent = balltze.event.frame.subscribe(function(event)
     if event.time == "before" then
     end
 end)
-local onRconMessageEvent = balltze.event.rconMessage.subscribe(function(event)
-    if event.time == "before" then
-        if blam.rcon.handle(event.context:message()) == false then
-            event:cancel()
-        end
-    end
-end)
+
 
 return {
     unload = function()
         onTickEvent:remove()
         onFrameEvent:remove()
-        onRconMessageEvent:remove()
     end
 }
