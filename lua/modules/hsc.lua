@@ -50,7 +50,7 @@ local function setVariable(varName, varValue)
 end
 
 local function getVariable(varName)
-    logger:debug(varName)
+    --logger:debug(varName)
     return get_global(varName)
 end
 
