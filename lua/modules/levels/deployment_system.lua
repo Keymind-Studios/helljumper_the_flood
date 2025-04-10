@@ -6,7 +6,7 @@ package.loaded["luna"] = nil
 require "luna"
 
 -- Gameplay Core Modules
-local dynamicCross = require "helljumper.gameplay_core.dynamicCross"
+local dynamicCross = require "helljumper.gameplay_core.dynamicCrosshair"
 local hudExtensions = require "helljumper.gameplay_core.hudExtensions"
 local healthRegen = require "helljumper.gameplay_core.healthRegen"
 local aimingDownSights = require "helljumper.gameplay_core.aimingDownSights"
@@ -15,9 +15,6 @@ local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjecti
 local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
 local deploymentTest = require "helljumper.witch_system.deploymentTest"
 
-dynamicCross.initializeSettings()
-
--- local onMapLoadEvent
 
 -- Functions OnTick
 function OnTick()
