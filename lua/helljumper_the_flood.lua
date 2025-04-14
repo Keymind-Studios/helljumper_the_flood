@@ -4,13 +4,45 @@ local engine = Engine
 package.preload["luna"] = nil
 package.loaded["luna"] = nil
 require "luna"
+--local draw_text = balltze.chimera.draw_text
+--local read_byte = balltze.memory.readByte
 local script = require "script"
 local blam = require "blam"
 local interface = require "helljumper.interface"
 local fontOverride = require "helljumper.fontOverride"
 local stateLoader = require "helljumper.witch_system.stateLoader"
 local playerState = require "helljumper.witch_system.playerState"
-local rucksack = require "helljumper.witch_system.rucksack.rucksack"
+local weapons = require "helljumper.constants.weapons"
+--local rucksack = require "helljumper.witch_system.rucksack.rucksack"
+local objectReferences = {}
+-- Get an object of the current game (prevent memory leak by using this wrapper)
+---@param handle EngineObjectHandle|integer Handle of the object
+---@param objectType EngineTagObjectType? Type of the object
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeBiped): MetaEngineBipedObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeVehicle): MetaEngineVehicleObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeGarbage): MetaEngineGarbageObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeWeapon): MetaEngineWeaponObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeEquipment): MetaEngineEquipmentObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeProjectile): MetaEngineProjectileObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeDeviceMachine): MetaEngineDeviceMachineObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeDeviceControl): MetaEngineDeviceControlObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagObjectTypeDeviceLightFixture): MetaEngineDeviceLightFixtureObject|nil
+---@return MetaEngineBaseObject|nil
+getObject = function (handle, objectType)
+    local handleValue = handle
+    if type(handleValue) == "table" or type(handleValue) == "userdata" then
+        handleValue = handleValue.value
+    end
+    local ref = objectReferences[handleValue]
+    if get_object(handleValue --[[@as number]]) and ref then
+        --logger:info("Object ref cache hit!")
+        return ref
+    end
+    --logger:warning("Object cache miss! {}", handleValue)
+    local object = Engine.gameState.getObject(handleValue, objectType)
+    objectReferences[handleValue] = object
+    return object
+end
 
 -- local main
 local loadWhenIn = {"f10_division_105", "deployment_system"}
@@ -77,7 +109,37 @@ local loaded = false
 function PluginFirstTick()
     fontOverride.setup()
     stateLoader.load()
+    weapons.get()
     --rucksack.saveSpecialAmmo()
+
+    balltze.event.tick.subscribe(function(event)
+        if event.time == "before" then
+            script.dispatch()
+            --rucksack.saveSpecialAmmo()
+            interface.changeAspectRatio()
+            logger:debug(string.format("%f MB", collectgarbage("count") / 1024))
+            if not loaded then
+                local serverType = engine.netgame.getServerType()
+                if serverType == "local" or serverType == "none" then
+                    local mapName = engine.map.getCurrentMapHeader().name
+                    local levelName = mapName:split("_dev")[1]
+                    local ok, result = pcall(require, "levels." .. levelName)
+                    if not ok then
+                        logger:warning("Error loading level script: {}", result)
+                    else
+                        logger:info("Loaded level script for \"{}\"", levelName)
+                    end
+                end
+                loaded = true
+            end
+            for handleValue in pairs(objectReferences) do
+                if not get_object(handleValue) then
+                    objectReferences[handleValue] = nil
+                    collectgarbage("collect")
+                end
+            end
+        end
+    end)
 end
 
 function PluginLoad()
@@ -106,29 +168,6 @@ function PluginLoad()
                                         rucksack.loadSpecialAmmo()
         return true
     end)
-    balltze.event.tick.subscribe(function(event)
-        if event.time == "before" then
-            script.dispatch()
-            -- balltze.features.setUIAspectRatio(16, 9)
-            interface.changeAspectRatio()
-            rucksack.saveSpecialAmmo()
-            if not loaded then
-                local serverType = engine.netgame.getServerType()
-                if serverType == "local" or serverType == "none" then
-                    local mapName = engine.map.getCurrentMapHeader().name
-                    local levelName = mapName:split("_dev")[1]
-                    local ok, result = pcall(require, "levels." .. levelName)
-                    if not ok then
-                        logger:warning("Error loading level script: {}", result)
-                    else
-                        logger:info("Loaded level script for \"{}\"", levelName)
-                    end
-                end
-                loaded = true
-            end
-        end
-    end)
-
     return true
 end
 
