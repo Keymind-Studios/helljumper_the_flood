@@ -1,81 +1,111 @@
 -- Lua libraries
-local const = require "helljumper.constants"
+local engine = Engine
+local balltze = Balltze
+local objectTypes = Engine.tag.objectType
+local getObject = Engine.gameState.getObject
+local getPlayer = Engine.gameState.getPlayer
+local playSound = engine.userInterface.playSound
+-- local read_byte = balltze.memory.readByte
 local blam = require "blam"
+local path = require "helljumper.constants.objectPaths"
 
 local hudExtensions = {state = {playerCriticalHealth = false}}
 
----Improvements for HUD, hide HUD on zoom
 function hudExtensions.radarHideOnZoom()
-    local player = blam.biped(get_dynamic_player())
-    if player then
-        -- console_out(playerObject.zoomLevel)
-        if not blam.isNull(player.zoomLevel) then
-            execute_script("hud_show_motion_sensor 0")
-        else
-            execute_script("hud_show_motion_sensor 1")
-        end
+    local player = getPlayer()
+    if not player then
+        return
+    end
+    local biped = getObject(player.objectHandle, objectTypes.biped)
+    if not biped then
+        return
+    end
+    local levelZoom1 = biped.desiredZoomLevel == 0
+    local levelZoom2 = biped.desiredZoomLevel == 1
+    if levelZoom1 or levelZoom2 then
+        execute_script("hud_show_motion_sensor 0")
+    else
+        execute_script("hud_show_motion_sensor 1")
     end
 end
 
---- Attempt to play a sound given tag path and optionally a gain number
+-- PlaySound
+---@param tagPath any
+---@param gain number
 function hudExtensions.playSound(tagPath, gain)
-    local player = blam.player(get_player())
-    if (player) then
-        local playSoundCommand = const.hsc.playSound:format(tagPath, player.index, gain or 1.0)
-        execute_script(playSoundCommand)
+    local player = getPlayer()
+    if not player then
+        return
     end
+    local playSoundCommand = path.hsc.playSound:format(tagPath, player.index, gain or 1.0)
+    execute_script(playSoundCommand)
 end
 
---- play a sound when you change grenade type
-function hudExtensions.changeGreandeSound()
-    local player = blam.biped(get_dynamic_player())
-    -- Player must exist
-    -- local playerData = blam.player(get_player())
-    -- Player must exist and not be a monitor
-    if (player) then
-        local isPlayerOnMenu = read_byte(blam.addressList.gameOnMenus) == 0
-        if not isPlayerOnMenu then
-            local localPlayer = read_dword(const.localPlayerAddress)
-            local currentGrenadeType = read_word(localPlayer + 202)
-            if not blam.isNull(currentGrenadeType) then
-                if (not lastGrenadeType) then
-                    lastGrenadeType = currentGrenadeType
-                end
-                if lastGrenadeType ~= currentGrenadeType then
-                    lastGrenadeType = currentGrenadeType
-                    if lastGrenadeType == 1 then
-                        hudExtensions.playSound(const.sounds.uiPGrenadePath, 3)
-                    else
-                        hudExtensions.playSound(const.sounds.uiFGrenadePath, 3)
-                    end
-                end
-            end
+function hudExtensions.changeGrenadeSound()
+    local player = getPlayer()
+    if not player then
+        return
+    end
+    local biped = getObject(player.objectHandle, objectTypes.biped)
+    if not biped then
+        return
+    end
+    -- TODO check if gameOnMenus function are on Balltze
+    local isPlayerOnMenu = read_byte(blam.addressList.gameOnMenus) == 0
+    if not isPlayerOnMenu then
+        return
+    end
+    local currentGrenadeType = biped.currentGrenadeIndex
+    local lastGrenadeType
+    if not lastGrenadeType then
+        lastGrenadeType = currentGrenadeType
+    end
+    if lastGrenadeType ~= biped.nextGrenadeIndex then
+        lastGrenadeType = biped.nextGrenadeIndex
+        if currentGrenadeType == 1 then
+            playSound(path.uiSoundFx.plasma_selected)
+        else
+            playSound(path.uiSoundFx.frag_selected)
         end
     end
+    -- logger:debug("Current Grenade Type:  {}  ", lastGrenadeType)
 end
 
--- Blur HUD vision on critical health
+-- TODO blur 
 function hudExtensions.hudBlurOnLowHealth()
-    local player = blam.biped(get_dynamic_player())
-    if player then
-            if player.health <= 0.25 and player.shield <= 0 and blam.isNull(player.vehicleObjectId) then
-                if not hudExtensions.state.playerCriticalHealth then
-                    hudExtensions.state.playerCriticalHealth = true
-                    hudExtensions.hudBlur(true)
-                end
-            else
-                if hudExtensions.state.playerCriticalHealth then
-                    hudExtensions.hudBlur(false)
-                end
-                hudExtensions.state.playerCriticalHealth = false
-            end
-    elseif hudExtensions.state.playerCriticalHealth then
-        hudExtensions.hudBlur(false, true)
-        hudExtensions.state.playerCriticalHealth = false
+    local player = getPlayer()
+    if not player then
+        return
     end
+    local biped = getObject(player.objectHandle, objectTypes.biped)
+    if not biped then
+        return
+    end
+    local lowHealth = biped.vitals.health
+    local noShield = biped.vitals.shield
+    local isOnVehicle = biped.vehicleSeatId
+    if lowHealth <= 0.4 and noShield  <= 0 then
+    hudExtensions.hudBlur(true, true)
+    end
+    --    if not hudExtensions.state.playerCriticalHealth then
+    --        hudExtensions.state.playerCriticalHealth = true
+    --        hudExtensions.hudBlur(true)
+    --    end
+    --else
+    --    if hudExtensions.state.playerCriticalHealth then
+    --        hudExtensions.hudBlur(false)
+    --    end
+    --    hudExtensions.state.playerCriticalHealth = false
+    --end
+    --if hudExtensions.state.playerCriticalHealth then
+    --    hudExtensions.hudBlur(false, true)
+    --    hudExtensions.state.playerCriticalHealth = false
+    --end
 end
 
---- HUD Blur
+-- HudBlurFX
+---@param enableBlur boolean
+---@param immediate any
 function hudExtensions.hudBlur(enableBlur, immediate)
     if enableBlur then
         execute_script([[(begin
@@ -101,20 +131,5 @@ function hudExtensions.hudBlur(enableBlur, immediate)
                     )]])
     return false
 end
-
--- Shake screen effect when biped is melee, not working yet
--- function gameplay.meleeScreen()
-
---    local player = blam.player(get_player())
---   local playerObject = blam.biped(get_object(player.objectId))
---    if playerObject then
---        -- console_out(playerObject.zoomLevel)
---        if playerObject.meleeKey then
---            execute_script(
---                [[(begin (damage_object keymind\halo_infinite\halo_infinite\weapons\rifle\stalker_rifle\_fx__kinestecia\overheated.damage_effect") (unit (list_get) (players) 0) )]])
---            -- execute_script([[damage_object keymind\\halo_infinite\\halo_infinite\\weapons\\rifle\\stalker_rifle\\_fx\\_kinestecia\\overheated]])
---        end
---    end
--- end
 
 return hudExtensions
