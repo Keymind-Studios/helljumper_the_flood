@@ -2276,6 +2276,7 @@ local modelAnimationsStructure = {
 ---@field primaryTriggerState number Primary trigger state of the weapon
 ---@field totalAmmo number Total ammo of the weapon
 ---@field loadedAmmo number Loaded ammo of the weapon   
+---@field reloadTicksRemainingFirstMagazine number Remaining ticks for weapon to finish reload (1st magazine)
 
 local weaponStructure = extendStructure(objectStructure, {
     pressedReloadKey = {type = "bit", offset = 0x230, bitLevel = 3},
@@ -2285,7 +2286,8 @@ local weaponStructure = extendStructure(objectStructure, {
     isInInventory = {type = "bit", offset = 0x1F4, bitLevel = 0},
     primaryTriggerState = {type = "byte", offset = 0x261},
     totalAmmo = {type = "word", offset = 0x2B6},
-    loadedAmmo = {type = "word", offset = 0x2B8}
+    loadedAmmo = {type = "word", offset = 0x2B8},
+    reloadTicksRemainingFirstMagazine = {type = "word", offset = 0x23A}
 })
 
 ---@class weaponTag
