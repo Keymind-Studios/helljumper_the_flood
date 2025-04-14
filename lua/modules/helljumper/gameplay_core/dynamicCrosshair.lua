@@ -1,12 +1,9 @@
 local engine = Engine
 local balltze = Balltze
 local objectTypes = Engine.tag.objectType
-local tagClasses = Engine.tag.classes
-local getTag = Engine.tag.getTag
-local getObject = Engine.gameState.getObject
 local getPlayer = Engine.gameState.getPlayer
-local findTags = Engine.tag.findTags
 local path = require "helljumper.constants.objectPaths"
+local weapons = require "helljumper.constants.weapons"
 local blam = require "blam"
 
 local dynamicCrosshair = {}
@@ -22,7 +19,7 @@ local ceil = math.ceil
 
 local crossHairAnimations = {
 
-    ---@class AssaultRifleMA38
+    -- AssaultRifleMA38
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -54,7 +51,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class LmgSaw
+    -- LmgSaw
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -86,7 +83,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class Needler
+    -- Needler
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -114,7 +111,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class Disruptor
+    -- Disruptor
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -154,7 +151,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class BattleRifle65H
+    -- BattleRifle65H
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -177,7 +174,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class DMR392
+    -- DMR392
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -212,7 +209,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class ShotgunM90
+    -- ShotgunM90
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -254,6 +251,7 @@ local crossHairAnimations = {
         if readyTime > 10 then
             readyTime = 6
         end
+        -- FIXME This also leaks memory due to magazines being a table with unknown elements
         local reloadTime = weaponObject.magazines[1].reloadTicksRemaining * 0.4
         if reloadTime > 9 then
             reloadTime = 0
@@ -277,7 +275,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class SpnkrRocketLauncher
+    -- SpnkrRocketLauncher
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -300,7 +298,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class VK78Commando
+    -- VK78Commando
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -375,7 +373,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class SniperRifle
+    -- SniperRifle
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -418,7 +416,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class Skewer
+    -- Skewer
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -459,7 +457,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class StormRifle
+    -- StormRifle
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -506,7 +504,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class PlasmaPistol
+    -- PlasmaPistol
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -538,7 +536,7 @@ local crossHairAnimations = {
         end
     end,
 
-    ---@class PlasmaCaster
+    -- PlasmaCaster
     ---@param weaponHudTag MetaEngineTag|MetaEngineWeaponHudInterfaceTag
     ---@param weaponObject MetaEngineBaseObject|MetaEngineWeaponObject
     ---@param crosshairIndex integer
@@ -576,7 +574,7 @@ local crossHairAnimations = {
     end
 }
 
-local lastWeaponTagHandle
+--local lastWeaponTagHandle
 
 function dynamicCrosshair.dynamicReticles()
     local player = getPlayer()
@@ -590,28 +588,32 @@ function dynamicCrosshair.dynamicReticles()
     local blamBiped = blam.biped(get_object(player.objectHandle.value))
     assert(blamBiped, "Biped tag must exist")
     -- TODO Ask Mango if "weaponSlot" prop exists in Balltze, to remove blam dependency
-    local weaponObject = getObject(biped.weapons[blamBiped.weaponSlot + 1], objectTypes.weapon)
+    local weaponObjectHandle = biped.weapons[blamBiped.weaponSlot + 1]
+    if not weaponObjectHandle or (weaponObjectHandle and weaponObjectHandle:isNull()) then
+        return
+    end
+    local weaponObject = getObject(weaponObjectHandle, objectTypes.weapon)
     if not weaponObject then
         return
     end
-    local weaponTag = getTag(weaponObject.tagHandle, tagClasses.weapon)
-    assert(weaponTag, "Weapon tag must exist")
-
-    local weaponHudTag =
-        getTag(weaponTag.data.hudInterface.tagHandle, tagClasses.weaponHudInterface)
-    assert(weaponHudTag, "HUD tag must exist")
+    local weaponTag = table.find(weapons.weaponTag, function(tag)
+        return tag.handle.value == weaponObject.tagHandle.value
+    end)
+    if not weaponTag then
+        logger:error("Weapon tag constant must exist")
+        return
+    end
     local crossHairAnimation = crossHairAnimations[weaponTag.path]
     if crossHairAnimation then
-        for crosshairIndex = 1, weaponHudTag.data.crosshairs.count do
-            -- local crosshairBitmapPath = weaponHudTag.data.crosshairs.elements[crosshairIndex]
-            --                                .crosshairBitmap.path
-            -- logger:debug("Crosshair Path:   " .. crosshairBitmapPath)
-            crossHairAnimation(weaponHudTag, weaponObject, crosshairIndex)
+        local hudInterfaceTag = table.find(weapons.weaponHudInterfaceTag, function(tag)
+            return weaponTag.data.hudInterface.tagHandle.value == tag.handle.value
+        end)
+        if not hudInterfaceTag then
+            logger:error("HUD weapon interface must exist")
+            return
         end
-    else
-        if lastWeaponTagHandle ~= weaponTag.handle.value then
-            lastWeaponTagHandle = weaponTag.handle.value
-            logger:warning("Weapon tag:  {}  has no crosshair animation data", weaponTag.path)
+        for crosshairIndex = 1, hudInterfaceTag.data.crosshairs.count do
+            crossHairAnimation(hudInterfaceTag, weaponObject, crosshairIndex)
         end
     end
 end
