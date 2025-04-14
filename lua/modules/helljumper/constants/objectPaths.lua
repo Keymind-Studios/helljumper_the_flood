@@ -36,4 +36,9 @@ objectPaths.deviceControl = {
     ds_726_ammo_150 = "keymind\\helljumper\\objects\\devices\\ammo_crates\\dr_726_ammo_150" -- Disruption Ammo = 150 rounds
 }
 
+objectPaths.uiSoundFx = {
+    frag_selected = "keymind\\the_flood\\sound\\001_ui\\001_ui_hud\\001_ui_hud_grenades\\001_frag_grenade",
+    plasma_selected = "keymind\\the_flood\\sound\\001_ui\\001_ui_hud\\001_ui_hud_grenades\\001_plasma_grenade"
+}
+
 return objectPaths
