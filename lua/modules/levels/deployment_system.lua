@@ -1,30 +1,28 @@
 local balltze = Balltze
 local engine = Engine
 DebugMode = true
-package.preload["luna"] = nil
-package.loaded["luna"] = nil
-require "luna"
 
 -- Gameplay Core Modules
-local dynamicCross = require "helljumper.gameplay_core.dynamicCrosshair"
+local dynamicCross = require "helljumper.gameplay_core.dynamicCrosshair" 
 local hudExtensions = require "helljumper.gameplay_core.hudExtensions"
 local healthRegen = require "helljumper.gameplay_core.healthRegen"
-local aimingDownSights = require "helljumper.gameplay_core.aimingDownSights"
-local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjectives"
+--local aimingDownSights = require "helljumper.gameplay_core.aimingDownSights"
+--local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjectives"
 -- local sprint = require "helljumper.gameplay_core.playerSprint"
-local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
-local deploymentTest = require "helljumper.witch_system.deploymentTest"
+--local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
+--local deploymentTest = require "helljumper.witch_system.deploymentTest"
 
+--dynamicCross.initializeSettings()
 
 -- Functions OnTick
 function OnTick()
     dynamicCross.dynamicReticles()
     hudExtensions.radarHideOnZoom()
-    hudExtensions.hudBlurOnLowHealth()
-    hudExtensions.changeGreandeSound()
+    --hudExtensions.hudBlurOnLowHealth() -- Not works as expected
+    --hudExtensions.changeGrenadeSound() -- Desn't work anymore
     healthRegen.regenerateHealth()
     -- aimingDownSights.customKeys()
-    playerPingObjectives.pingObjectives()
+    --playerPingObjectives.pingObjectives()
     -- weaponExtensions.casterFixHeat()
     -- deploymentTest.eachTick()
 end
@@ -38,7 +36,6 @@ local onFrameEvent = balltze.event.frame.subscribe(function(event)
     if event.time == "before" then
     end
 end)
-
 
 return {
     unload = function()
