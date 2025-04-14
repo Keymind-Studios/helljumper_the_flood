@@ -1,26 +1,34 @@
+------------------------------------------------------------------------------
+-- Treason Dynamic Crosshairs Module
+-- Mark Mc'Fuzz
+-- This script is intended to provide dynamic crosshairs feature
+------------------------------------------------------------------------------
+local path = require "helljumper.constants.objectPaths"
+
+
 local dynamicCross = {}
 
 ---------------------------------------DYNAMIC CROSSHAIR WEAPONS----------------------------------------------------------
-
+ 
 --WEAPON TAG PATH
 --local smg_name = "keymind\\the_flood\\weapons\\rifle\\smg\\smg_m7"
-local ma38_path = "keymind\\the_flood\\weapons\\rifle\\assault_rifle\\assault_rifle_ma38"
-local needlert54c_path = "keymind\\the_flood\\weapons\\pistol\\needler\\needler_t54c"
+local ma38_path = "keymind\\helljumper\\objects\\weapons\\rifle\\assault_rifle\\assault_rifle_ma38"
+local needlert54c_path = "keymind\\helljumper\\objects\\weapons\\pistol\\needler\\needler_t54c"
 --local needlert54b_path = "keymind\\the_flood\\weapons\\pistol\\needler_short\\needler_t54b"
 --local mag_m6d_path = "keymind\\the_flood\\weapons\\pistol\\magnum_m6d\\magnum_m6d"
-local mag_m6s_path = "keymind\\the_flood\\weapons\\pistol\\magnum_m6s\\magnum_m6s"
-local plasmap_path = "keymind\\the_flood\\weapons\\pistol\\plasma_pistol\\plasma_pistol"
-local m90_path = "keymind\\the_flood\\weapons\\rifle\\shotgun_m90\\shotgun_m90"
+local mag_m6s_path = "keymind\\helljumper\\objects\\weapons\\pistol\\magnum_m6s\\magnum_m6s"
+local plasmap_path = "keymind\\helljumper\\objects\\weapons\\pistol\\plasma_pistol\\plasma_pistol"
+local m90_path = "keymind\\helljumper\\objects\\weapons\\rifle\\shotgun_m90\\shotgun_m90"
 --local dmr392_path = "keymind\\the_flood\\weapons\\rifle\\dmr\\dmr_392"
-local sniper_path = "keymind\\the_flood\\weapons\\rifle\\sniper_rifle\\sniper_rifle_srs99c"
-local vakara_path = "keymind\\halo_infinite\\weapons\\rifle\\vk78_commando\\vk78_commando"
-local spnkr_path = "keymind\\halo_infinite\\weapons\\support_high\\m41_spknr\\m41_spknr"
-local br65h_path = "keymind\\the_flood\\weapons\\rifle\\br65h\\br_65h"
-local stormR_path = "keymind\\halo_5\\weapons\\rifle\\cv_storm_rifle\\cv_storm_rifle"
-local skewer_path = "keymind\\halo_infinite\\weapons\\support_high\\skewer\\skewer"
-local plasma_caster_path = "keymind\\halo_5\\weapons\\rifle\\cv_grenade_launcher\\cv_grenade_launcher"
-local lmg_saw_path = "keymind\\halo_5\\weapons\\rifle\\lmg_saw\\lmg_saw"
-local arc_zapper_path = "keymind\\halo_infinite\\weapons\\pistol\\proto_arc_zapper\\proto_arc_zapper"
+local sniper_path = "keymind\\helljumper\\objects\\weapons\\rifle\\sniper_rifle\\sniper_rifle_srs99c"
+local vakara_path = "keymind\\helljumper\\objects\\weapons\\rifle\\vk78_commando\\vk78_commando"
+local spnkr_path = "keymind\\helljumper\\objects\\weapons\\support_high\\spnkr_rocket_launcher\\m41_spknr"
+local br65h_path = "keymind\\helljumper\\objects\\weapons\\rifle\\br65h\\br_65h"
+local stormR_path = "keymind\\helljumper\\objects\\weapons\\rifle\\cv_storm_rifle\\cv_storm_rifle"
+local skewer_path = "keymind\\helljumper\\objects\\weapons\\support_high\\skewer\\skewer"
+local plasma_caster_path = "keymind\\helljumper\\objects\\weapons\\rifle\\cv_grenade_launcher\\cv_grenade_launcher"
+local lmg_saw_path = "keymind\\helljumper\\objects\\weapons\\rifle\\lmg_saw\\lmg_saw"
+local arc_zapper_path = "keymind\\helljumper\\objects\\weapons\\pistol\\proto_arc_zapper\\proto_arc_zapper"
 --local wasp_weap_path = "keymind\\halo_5\\vehicles\\unsc\\wasp\\wasp"
 
 -- WEAPON TAG PATH VARIABLE
@@ -62,14 +70,14 @@ local ceil = math.ceil
 function dynamicCross.initializeSettings()
 
         WEAPON_HUDS = {
-            [ma38_tag] = read_dword(get_tag("wphi", "keymind\\the_flood\\weapons\\rifle\\assault_rifle\\assault_rifle_ma38") + 0x14),
-            [needlert54c_tag] = read_dword(get_tag("wphi", "keymind\\the_flood\\weapons\\pistol\\needler\\needler_t54c") + 0x14),
+            [ma38_tag] = read_dword(get_tag("wphi", "keymind\\helljumper\\objects\\weapons\\rifle\\assault_rifle\\assault_rifle_ma38") + 0x14),
+            [needlert54c_tag] = read_dword(get_tag("wphi", "keymind\\helljumper\\objects\\weapons\\pistol\\needler\\needler_t54c") + 0x14),
             [mag_m6s_tag] = read_dword(get_tag("wphi", mag_m6s_path) + 0x14),
             [plasmap_tag] = read_dword(get_tag("wphi", plasmap_path) + 0x14),
             [m90_tag] = read_dword(get_tag("wphi", m90_path) + 0x14),
             [br65h_tag] = read_dword(get_tag("wphi", br65h_path) + 0x14),
             [spnkr_tag] = read_dword(get_tag("wphi", "keymind\\the_flood\\weapons\\support_high\\rocket_launcher_spnkr\\rocket_launcher_spnkr") + 0x14),
-            [sniper_tag] = read_dword(get_tag("wphi", "keymind\\the_flood\\weapons\\rifle\\sniper_rifle\\sniper_rifle") + 0x14),
+            [sniper_tag] = read_dword(get_tag("wphi", "keymind\\helljumper\\objects\\weapons\\rifle\\sniper_rifle\\sniper_rifle") + 0x14),
             [vakara_tag] = read_dword(get_tag("wphi", vakara_path) + 0x14),
             [stormR_tag] = read_dword(get_tag("wphi", stormR_path) + 0x14),
             [skewer_tag] = read_dword(get_tag("wphi", skewer_path) + 0x14),
@@ -219,12 +227,12 @@ function dynamicCross.initializeSettings()
 
     -- DYNAMIC RETICLES
     if dynamic_crosshairs then
-        local m6s_tag_data = read_dword(get_tag("weap", "keymind\\the_flood\\weapons\\pistol\\magnum_m6s\\magnum_m6s") + 0x14)
-        local ma38_tag_data = read_dword(get_tag("weap", "keymind\\the_flood\\weapons\\rifle\\assault_rifle\\assault_rifle_ma38") + 0x14)
-		local needlert54c_tag_data = read_dword(get_tag("weap", "keymind\\the_flood\\weapons\\pistol\\needler\\needler_t54c") + 0x14)
-        local spknr_tag_data = read_dword(get_tag("weap", "keymind\\halo_infinite\\weapons\\support_high\\m41_spknr\\m41_spknr") + 0x14)
-        local vakara_tag_data = read_dword(get_tag("weap", "keymind\\halo_infinite\\weapons\\rifle\\vk78_commando\\vk78_commando") + 0x14)
-        local skewer_tag_data = read_dword(get_tag("weap", "keymind\\halo_infinite\\weapons\\support_high\\skewer\\skewer") + 0x14)
+        local m6s_tag_data = read_dword(get_tag("weap", "keymind\\helljumper\\objects\\weapons\\pistol\\magnum_m6s\\magnum_m6s") + 0x14)
+        local ma38_tag_data = read_dword(get_tag("weap", "keymind\\helljumper\\objects\\weapons\\rifle\\assault_rifle\\assault_rifle_ma38") + 0x14)
+		local needlert54c_tag_data = read_dword(get_tag("weap", "keymind\\helljumper\\objects\\weapons\\pistol\\needler\\needler_t54c") + 0x14)
+        local spknr_tag_data = read_dword(get_tag("weap", "keymind\\helljumper\\objects\\weapons\\support_high\\spnkr_rocket_launcher\\m41_spknr") + 0x14)
+        local vakara_tag_data = read_dword(get_tag("weap", "keymind\\helljumper\\objects\\weapons\\rifle\\vk78_commando\\vk78_commando") + 0x14)
+        local skewer_tag_data = read_dword(get_tag("weap", "keymind\\helljumper\\objects\\weapons\\support_high\\skewer\\skewer") + 0x14)
         --local m6d_tag_data = read_dword(get_tag("weap", "keymind\\the_flood\\weapons\\pistol\\magnum_m6d\\magnum_m6d") + 0x14)
 
         -- change heat loss (since guerilla doesn't allow values above 1)        
