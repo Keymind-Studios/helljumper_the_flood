@@ -1,0 +1,1 @@
+Aquí deberíamos guardar todos los módulos pertinentes a guardar estados (Que el estado del player, que del tech tree, que del rucksack, etc etc).

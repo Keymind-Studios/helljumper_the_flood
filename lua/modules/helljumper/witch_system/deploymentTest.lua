@@ -24,7 +24,7 @@ function deploymentTest.squadAssambler()
     local actorVariantPath = table.map(actorVariantTags, function (v, k)
         return v.path
     end)
-    logger:debug("Actor Variants: {}", tostring(inspect(actorVariantPath)))
+    --logger:debug("Actor Variants: {}", tostring(inspect(actorVariantPath)))
     console_out("Attempted to execute squadAssambler...")
 end
 

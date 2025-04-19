@@ -10,7 +10,7 @@ local healthRegen = require "helljumper.gameplay_core.healthRegen"
 --local playerPingObjectives = require "helljumper.gameplay_core.playerPingObjectives"
 -- local sprint = require "helljumper.gameplay_core.playerSprint"
 --local weaponExtensions = require "helljumper.gameplay_core.weaponExtensions"
---local deploymentTest = require "helljumper.witch_system.deploymentTest"
+local deploymentTest = require "helljumper.witch_system.deploymentTest"
 
 --dynamicCross.initializeSettings()
 
@@ -24,7 +24,7 @@ function OnTick()
     -- aimingDownSights.customKeys()
     --playerPingObjectives.pingObjectives()
     -- weaponExtensions.casterFixHeat()
-    -- deploymentTest.eachTick()
+    deploymentTest.eachTick()
 end
 
 local onTickEvent = balltze.event.tick.subscribe(function(event)

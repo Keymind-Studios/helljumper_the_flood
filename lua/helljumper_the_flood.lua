@@ -12,6 +12,7 @@ local interface = require "helljumper.interface"
 local fontOverride = require "helljumper.fontOverride"
 local stateLoader = require "helljumper.witch_system.stateLoader"
 local playerState = require "helljumper.witch_system.playerState"
+local deploymentTest = require "helljumper.witch_system.deploymentTest"
 local weapons = require "helljumper.constants.weapons"
 --local rucksack = require "helljumper.witch_system.rucksack.rucksack"
 local objectReferences = {}
@@ -117,7 +118,7 @@ function PluginFirstTick()
             script.dispatch()
             --rucksack.saveSpecialAmmo()
             interface.changeAspectRatio()
-            logger:debug(string.format("%f MB", collectgarbage("count") / 1024))
+            --logger:debug(string.format("%f MB", collectgarbage("count") / 1024))
             if not loaded then
                 local serverType = engine.netgame.getServerType()
                 if serverType == "local" or serverType == "none" then
@@ -149,7 +150,7 @@ function PluginLoad()
     loadChimeraCompatibility()
 
     ---Commands for Helljumper
-    balltze.command.registerCommand("save_state", "debug", "description", nil, false, 0, 0, true,
+        balltze.command.registerCommand("save_state", "debug", "description", nil, false, 0, 0, true,
                                     false, function(args)
                                         playerState.saveGrenades()
                                         playerState.saveHealth()
@@ -163,9 +164,14 @@ function PluginLoad()
                                         playerState.loadWeapon()
         return true
     end)
-            balltze.command.registerCommand("load_ammo", "debug", "description", nil, false, 0, 0, true,
+    --    balltze.command.registerCommand("load_ammo", "debug", "description", nil, false, 0, 0, true,
+    --                                false, function(args)
+    --                                    rucksack.loadSpecialAmmo()
+    --    return true
+    --end)
+        balltze.command.registerCommand("squad_assambler", "debug", "description", nil, false, 0, 0, true,
                                     false, function(args)
-                                        rucksack.loadSpecialAmmo()
+                                        deploymentTest.squadAssambler()
         return true
     end)
     return true
